@@ -6,6 +6,10 @@
   transform: scale(0.98);
 }
 
+.hover-scale-115:hover {
+  transform: scale(1.15);
+}
+
 .hover-transition-40ms-easyin {
   transition: all 0.4s ease-in;
 }

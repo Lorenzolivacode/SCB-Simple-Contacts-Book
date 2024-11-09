@@ -1,0 +1,12 @@
+{
+  "Home": {},
+  "ContactForm": {
+    "titlePost": "Aggiungi un contatto",
+    "titlePut": "Modifica il contatto",
+    "name": "Nome",
+    "surname": "Cognome",
+    "phone": "Numero di telefono",
+    "email": "Indirizzo email",
+    "submit": "Salva"
+  }
+}
