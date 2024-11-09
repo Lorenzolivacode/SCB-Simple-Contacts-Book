@@ -1,0 +1,21 @@
+.hover-opacity-85:hover {
+  opacity: 0.85;
+}
+
+.hover-scale-98:hover {
+  transform: scale(0.98);
+}
+
+.hover-transition-40ms-easyin {
+  transition: all 0.4s ease-in;
+}
+
+.reset-default {
+  margin: 0;
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  text-decoration: none;
+  color: inherit;
+  line-height: normal;
+}
