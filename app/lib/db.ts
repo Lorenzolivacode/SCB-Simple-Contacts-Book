@@ -2,9 +2,7 @@ import Database from "better-sqlite3";
 import path from "path";
 
 // Inizializza il database SQLite e crea la tabella se non esiste
-export const db = new Database(
-  path.resolve(process.cwd(), "/app/lib/contacts.db")
-);
+export const db = new Database(path.resolve(process.cwd(), "./database.db"));
 
 db.prepare(
   `CREATE TABLE IF NOT EXISTS contacts (

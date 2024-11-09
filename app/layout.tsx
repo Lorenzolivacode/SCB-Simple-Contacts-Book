@@ -10,7 +10,9 @@ export default function RootLayout({
       <Head>
         <title>SCB</title>
       </Head>
-      {children}
+      <html lang="it">
+        <body>{children}</body>
+      </html>
     </>
   );
 }

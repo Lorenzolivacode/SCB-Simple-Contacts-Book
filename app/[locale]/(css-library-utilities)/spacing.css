@@ -3,6 +3,10 @@
   margin: auto;
 }
 
+.m-5px {
+  margin: 5px;
+}
+
 .mt-30px {
   margin-top: 30px;
 }

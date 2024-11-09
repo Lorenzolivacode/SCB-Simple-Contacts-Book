@@ -21,6 +21,10 @@
 
 /* POSITIONING */
 /* - GAP */
+.gap-4px {
+  gap: 4px;
+}
+
 .gap-5px {
   gap: 5px;
 }
@@ -79,6 +83,16 @@
 .flex-wrap {
   display: flex;
   flex-wrap: wrap;
+}
+
+/* -ROW-GAP */
+
+.row-gap-5px {
+  row-gap: 5px;
+}
+
+.row-gap-10px {
+  row-gap: 10px;
 }
 
 /* ITEMS */

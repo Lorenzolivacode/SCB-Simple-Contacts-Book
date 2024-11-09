@@ -132,6 +132,21 @@
   transform: translate(-50%, -50%);
 }
 
+.end-bottom {
+  right: 0;
+  bottom: 0;
+}
+
+.end-bottom-10px {
+  right: 10px;
+  bottom: 10px;
+}
+
+.end-top-10px {
+  right: 10px;
+  top: 10px;
+}
+
 .start {
   top: 0;
   left: 0;

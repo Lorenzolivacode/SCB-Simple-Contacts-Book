@@ -10,14 +10,14 @@ import MainList from "./(components)/(Organisms)/MainList/MainList";
 export default function Home() {
   const [contacts, setContacts] = useState<Contact[]>([]);
 
-  useEffect(() => {
+  /*  useEffect(() => {
     fetch("/api/contacts")
       .then((res) => {
         console.log("res", res);
         return res.json();
       })
       .then((data) => setContacts(data));
-  }, []);
+  }, []); */
 
   const list: Contact[] = [
     {

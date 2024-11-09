@@ -36,6 +36,9 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+
+    /* --color-primary-dark: #ecd9b4;
+    --color-secondary-light: #00436d; */
   }
 }
 
