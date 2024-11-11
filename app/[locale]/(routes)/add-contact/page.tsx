@@ -9,19 +9,14 @@ function AddContact() {
     lastName: "",
     phone: "",
     email: "",
-    favorite: false,
+    favorite: 1,
   });
-
-  /*   useEffect(() => {
-    console.log(newContact);
-  }, [newContact]); */
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewContact({ ...newContact, [event.target.name]: event.target.value });
   };
 
   const POST = async (contact: Omit<Contact, "id">) => {
-    /* const url = newContact ? `/api/contacts/${newContact.id}` : '/api/contacts'; */
     try {
       const res = await fetch("/api/contacts", {
         method: "POST",
@@ -34,19 +29,8 @@ function AddContact() {
       console.error("Errore durante l'aggiunta del contatto:", error);
     }
   };
-  /* .then((newContact) => {
-            if (editingContact) {
-              setNewContact(
-                contacts.map((c) => (c.id === editingContact.id ? newContact : c))
-              );
-            } else {
-              setNewContact([...contacts, newContact]);
-            }
-            setEditingContact(null);
-          }); */
 
   const handlePOST = (e: FormEvent) => {
-    debugger;
     e.preventDefault();
     const post = POST(newContact);
     console.log("POST effetuata", post);

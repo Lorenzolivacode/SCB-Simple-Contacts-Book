@@ -74,12 +74,20 @@
   padding-bottom: 0;
 }
 
+.p-b-4px {
+  padding-bottom: 4px;
+}
+
 .p-b-20px {
   padding-bottom: 20px;
 }
 
 .p-b-40px {
   padding-bottom: 40px;
+}
+
+.p-l-4px {
+  padding-left: 4px;
 }
 
 .p-l-10px {
@@ -96,6 +104,11 @@
 
 .p-l-40px {
   padding-left: 40px;
+}
+
+.p-x-4px {
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 .p-x-6px {

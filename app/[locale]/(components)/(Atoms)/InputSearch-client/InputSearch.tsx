@@ -1,18 +1,30 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import IconSearch from "../(Icons-svg)/Icon-search";
+import { Contact } from "@/app/(interface)/(types)/contact";
 
-interface inputProps {}
-function InputSearch() {
+interface inputProps {
+  onSearchContacts: (search: string) => void;
+}
+function InputSearch({ onSearchContacts }: inputProps) {
+  const [search, setSearch] = useState("");
+  useEffect(() => {
+    onSearchContacts(search);
+    console.log("Input", search);
+  }, [search]);
   return (
     <div className="flex gap-10px">
-      <Image
-        src={"/icons/search.svg"}
-        width={20}
-        height={20}
-        alt="Icon search"
+      <IconSearch fill="none"></IconSearch>
+      <input
+        className="input-reset-with-border border-br-1-s-l radius-20px-1s4-3 p-l-4px p-b-4px"
+        type="text"
+        value={search}
+        placeholder="Search contanct"
+        onChange={(e) => {
+          setSearch(e.target.value);
+        }}
       />
-      <input type="text" value={""} placeholder="Search contanct" />
     </div>
   );
 }

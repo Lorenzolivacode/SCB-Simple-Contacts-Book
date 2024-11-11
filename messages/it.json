@@ -8,5 +8,9 @@
     "phone": "Numero di telefono",
     "email": "Indirizzo email",
     "submit": "Salva"
+  },
+  "DetailContact": {
+    "notFound": "Il contatto non esiste",
+    "error": "Errore durante la lettura dei contatti"
   }
 }

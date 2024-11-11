@@ -212,3 +212,8 @@
 .max-w-70p {
   max-width: 70%;
 }
+
+/* -- PIXEL */
+.max-w-220px {
+  max-width: 220px;
+}

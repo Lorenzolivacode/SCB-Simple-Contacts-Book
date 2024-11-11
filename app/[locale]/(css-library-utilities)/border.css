@@ -31,6 +31,12 @@
   border-right: 1px solid var(--color-primary-medium-light);
 }
 
+.border-br-1-s-l {
+  border: none;
+  border-bottom: 1px solid var(--color-secondary-light);
+  border-right: 1px solid var(--color-secondary-light);
+}
+
 /* SHADOW */
 .shadow-p-very-dark {
   box-shadow: 0 0 4px var(--color-primary-very-dark);
@@ -95,6 +101,10 @@
 
 .radius-3px {
   border-radius: 3px;
+}
+
+.radius-4px {
+  border-radius: 4px;
 }
 
 .radius-5px {
