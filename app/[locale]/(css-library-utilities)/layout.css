@@ -91,6 +91,11 @@
 }
 
 /* TRANSFORM */
+/* -SCALE */
+.scale-97 {
+  transform: scale(0.97);
+}
+
 /* -TRANSLATE */
 .translate-y--50 {
   transform: translateY(-50%);

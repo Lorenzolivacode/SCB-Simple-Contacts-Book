@@ -2,69 +2,107 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+
 import { Contact } from "../(interface)/(types)/contact";
 import BtnAdd from "./(components)/(Atoms)/BtnAdd/BtnAdd";
 import MainList from "./(components)/(Organisms)/MainList/MainList";
 import InputSearch from "./(components)/(Atoms)/InputSearch-client/InputSearch";
 import { GET, PUT } from "./(function)/api";
+import Toggle from "./(components)/(Atoms)/Toggle/Toggle";
+import BtnSetting from "./(components)/(Atoms)/BtnSetting/BtnSetting";
+import BtnFavorites from "./(components)/(Atoms)/BtnFavorites/BtnFavorites";
+import BtnOption from "./(components)/(Atoms)/BtnOption/BtnOption";
+import IconReverse from "./(components)/(Atoms)/(Icons-svg)/Icon-reverse";
+import IconViewDetails from "./(components)/(Atoms)/(Icons-svg)/Icon-view-details";
 
 export default function Home() {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [filteredContacts, setFilteredContacts] = useState<Contact[]>([]);
   const [orderedContacts, setOrderedContacts] = useState<Contact[]>([]);
-  const [isOrderNameSur, setIsOrderNameSur] = useState(false);
+
+  const [numberContacts, setnumberContacts] = useState(0);
+  const [isOrderNameSur, setIsOrderNameSur] = useState(true);
+  const [isOrderEmail, setIsOrderEmail] = useState(false);
+  const [isVisibleDetails, setIsVisibleDetails] = useState(false);
+  const [isReverseList, setIsReverseList] = useState(false);
 
   const [updatedContact, setUpdatedContact] = useState<Contact | null>(null);
-  const [checkFavorite, setCheckFavorite] = useState(false);
+  const [isFavoriteList, setIsFavoriteList] = useState(false);
+
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
-  /* (async () => {
-    try {
-      const res = await fetch("/api/contacts/");
-      console.log("res", res);
-
-      const data = await res.json();
-      console.log("Lista:", data);
-
-      setContacts(data);
-    } catch (err) {
-      console.error("Errore durante la lettura dei contatti:", err);
-      if (typeof err === "string") {
-        setError(err);
-      } else {
-        setError("error");
-      }
-    }
-  })(); */
+  const t = useTranslations("Home");
 
   const handleGET = async () => {
+    setIsLoading(true);
     const data = await GET({ error: setError });
     setContacts(data);
+    handleSort(data);
+    setnumberContacts(data.length);
+    setIsLoading(false);
     return data;
+  };
+
+  const handlePUT = async (contact: Contact) => {
+    await PUT({ id: contact.id, contact, error: setError });
+  };
+
+  const handleSort = (data: Contact[]) => {
+    if (isOrderEmail) {
+      const alphabeticOrder = data.sort((a, b) =>
+        a.email.localeCompare(b.email)
+      );
+      setOrderedContacts(alphabeticOrder);
+      console.log("sorted", orderedContacts);
+    } else if (isOrderNameSur) {
+      const alphabeticOrder = data.sort((a, b) =>
+        a.firstName.localeCompare(b.firstName)
+      );
+      setOrderedContacts(alphabeticOrder);
+    } else {
+      const alphabeticOrder = data.sort((a, b) =>
+        a.lastName.localeCompare(b.lastName)
+      );
+      setOrderedContacts(alphabeticOrder);
+    }
+  };
+
+  const handleFavorite = (contact: Contact) => {
+    setUpdatedContact({
+      ...contact,
+      favorite: contact.favorite === 0 ? 1 : 0,
+    });
+  };
+
+  const handleSearchContacts = (inputSearch: string) => {
+    const newList = contacts.filter(
+      (contact) =>
+        contact.firstName.toLowerCase().includes(inputSearch.toLowerCase()) ||
+        contact.lastName.toLowerCase().includes(inputSearch.toLowerCase()) ||
+        contact.email.toLowerCase().includes(inputSearch.toLowerCase())
+    );
+    setOrderedContacts(newList);
   };
 
   useEffect(() => {
     if (updatedContact) {
       handlePUT(updatedContact);
-      /* console.log("updatedContact", updatedContact); */
       setUpdatedContact(null); //Evita loop
     } else {
       (async () => {
-        const data = await handleGET();
+        await handleGET();
       })();
-      /* console.log("updatedContact in GET", updatedContact);
-      console.log("GET effettuata");
-      console.log("Ordered contacts in GET", orderedContacts); */
     }
   }, [updatedContact]);
 
   useEffect(() => {
-    const alphabeticOred = contacts.sort((a, b) =>
-      a.firstName.localeCompare(b.firstName)
-    );
-    setOrderedContacts(alphabeticOred);
-    /* console.log("Ordered contacts", orderedContacts); */
-  }, [contacts]);
+    if (contacts.length === 0) return;
+    const sortedContacts = [...contacts];
+
+    handleSort(sortedContacts);
+  }, [isOrderNameSur, isOrderEmail]);
 
   /*TODO const obj ={
   a: [
@@ -106,41 +144,8 @@ export default function Home() {
 } */
   //TODO modale di ricerca lettere con link => #lettera titolo
 
-  const handleSearchContacts = (inputSearch: string) => {
-    const newList = contacts.filter(
-      (contact) =>
-        contact.firstName.toLowerCase().includes(inputSearch.toLowerCase()) ||
-        contact.lastName.toLowerCase().includes(inputSearch.toLowerCase()) ||
-        contact.email.toLowerCase().includes(inputSearch.toLowerCase())
-    );
-    setOrderedContacts(newList);
-  };
-
-  const handlePUT = async (contact: Contact) => {
-    const data = await PUT({ id: contact.id, contact, error: setError });
-    console.log("PUT data", data);
-
-    /* handleGET(); */
-  };
-
-  const handleFavorite = (contact: Contact) => {
-    setUpdatedContact({
-      ...contact,
-      favorite: contact.favorite === 0 ? 1 : 0,
-    });
-  };
-
-  /* useEffect(() => {
-    if (updatedContact) {
-      handlePUT(updatedContact);
-      setCheckFavorite(!checkFavorite);
-      console.log("checkFavorite UPC", checkFavorite);
-      console.log("updatedContact", updatedContact);
-    }
-
-  }, [updatedContact]); */
-
   if (error.length > 0 || contacts.length < 1) {
+    if (isLoading) return <h3>Loading...</h3>;
     return (
       <div className="flex-column flex-cross-center m-auto">
         {contacts.length < 1 && <h2>404</h2>}
@@ -149,11 +154,61 @@ export default function Home() {
     );
   }
 
+  const containerLabelBtnClass = "flex-column flex-center gap-4px max-w-60px";
+
   return (
     <>
-      <InputSearch onSearchContacts={handleSearchContacts}></InputSearch>
+      <InputSearch onSearchContacts={handleSearchContacts} />
+      <div className="flex-center gap-8px w-full">
+        <BtnSetting />
+        <BtnFavorites />
+      </div>
+      <section className="settings overflow-hidden flex-center flex-wrap gap-16px radius-4px shadow-inset-p-very-dark border1-s-v-l p-8px w-full bg-primary-dark">
+        <div className={containerLabelBtnClass}>
+          <p className="w-20px h-20px bg-primary-sat-medium-light p-2px radius-50p f-size-0d7">
+            {numberContacts}
+          </p>
+          <label className="txt-center f-size-0d7">
+            {t("numberOfContacts")}
+          </label>
+        </div>
+        <div className={containerLabelBtnClass}>
+          <Toggle active={isOrderNameSur} setActive={setIsOrderNameSur} />
+          <label className="txt-center f-size-0d7">
+            {isOrderNameSur ? t("nameOrdered") : t("surnameOrdered")}
+          </label>
+        </div>
+        <div className={containerLabelBtnClass}>
+          <BtnOption state={isOrderEmail} setState={setIsOrderEmail}>
+            <p className="txt-center l-height-1">@</p>
+          </BtnOption>
+          <label className="txt-center f-size-0d7">{t("emailOrdered")}</label>
+        </div>
+        <div className={containerLabelBtnClass}>
+          <BtnOption state={isVisibleDetails} setState={setIsVisibleDetails}>
+            <IconViewDetails
+              width={16}
+              fill={isVisibleDetails ? "none" : "#ffffff"}
+              stroke="#ffffff"
+            />
+          </BtnOption>
+          <label className="txt-center f-size-0d7">{t("viewDetails")}</label>
+        </div>
+        <div className={containerLabelBtnClass}>
+          <BtnOption state={isReverseList} setState={setIsReverseList}>
+            <IconReverse width={16} fill="#ffffff" />
+          </BtnOption>
+          <label className="txt-center f-size-0d7">{t("reverse")}</label>
+        </div>
+      </section>
       <BtnAdd />
-      <MainList onFavorite={handleFavorite} list={orderedContacts} />
+      <MainList
+        onFavorite={handleFavorite}
+        list={orderedContacts}
+        isOrderNameSur={isOrderNameSur}
+        isVisibleDetail={isVisibleDetails}
+        isReverseList={isReverseList}
+      />
     </>
   );
 }

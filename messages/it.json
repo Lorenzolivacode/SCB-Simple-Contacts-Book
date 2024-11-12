@@ -1,5 +1,12 @@
 {
-  "Home": {},
+  "Home": {
+    "numberOfContacts": "Numero di contatti",
+    "nameOrdered": "Ordinato per nome",
+    "surnameOrdered": "Ordinato per cognome",
+    "emailOrdered": "Ordina per email",
+    "viewDetails": "Visualizza dettagli",
+    "reverse": "Inverti ordine"
+  },
   "ContactForm": {
     "titlePost": "Aggiungi un contatto",
     "titlePut": "Modifica il contatto",

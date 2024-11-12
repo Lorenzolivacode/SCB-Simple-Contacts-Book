@@ -214,6 +214,18 @@
 }
 
 /* -- PIXEL */
+.max-w-40px {
+  max-width: 40px;
+}
+
+.max-w-48px {
+  max-width: 48px;
+}
+
+.max-w-60px {
+  max-width: 60px;
+}
+
 .max-w-220px {
   max-width: 220px;
 }

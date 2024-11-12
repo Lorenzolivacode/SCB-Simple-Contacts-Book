@@ -7,6 +7,10 @@
   border: 1px solid var(--color-primary-dark);
 }
 
+.border3-p-sat-m-l {
+  border: 2px solid var(--color-primary-saturated-medium-light);
+}
+
 .border3-p-sat-l {
   border: 3px solid var(--color-primary-saturated-light);
 }
@@ -56,6 +60,14 @@
 
 .shadow-light-minus10 {
   box-shadow: 0 0 40px -10px var(--color-secondary-light);
+}
+
+.shadow-inset-p-very-dark {
+  box-shadow: inset 0px 0px 16px 0px var(--color-primary-very-dark);
+}
+
+.shadow-inset-p-dark {
+  box-shadow: inset 0px 0px 4px 2px var(--color-primary-dark);
 }
 
 .shadow-t-inset-p-medium {

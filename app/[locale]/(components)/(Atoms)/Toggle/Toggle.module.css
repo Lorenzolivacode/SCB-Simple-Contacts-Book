@@ -1,0 +1,41 @@
+.main {
+  border: 3px solid var(--color-primary-saturated-medium-light);
+  border-radius: 20px;
+  width: 36px;
+  height: 20px;
+  background-color: var(--color-primary-saturated-medium-light);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.mask {
+  display: flex;
+  justify-content: flex-end;
+  border-radius: 30px;
+  padding: 2px;
+  width: 15px;
+  height: 100%;
+  background-color: var(--color-primary-saturated-medium);
+  transition: all 0.4s ease-in;
+}
+
+.dot {
+  /* border: 2px solid var(--primary-saturated-medium-light); */
+  border-radius: 50%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: var(--color-secondary-saturated-medium);
+}
+
+.active {
+  border: 2px solid var(--color-primary-saturated-medium-light);
+}
+
+.active > .mask {
+  padding: 0%;
+  width: 100%;
+}
+
+.active .dot {
+  background-color: var(--color-secondary-saturated-dark);
+}

@@ -102,7 +102,7 @@ function DetailContact({ params }: DetailProps) {
   }
 
   const liClass =
-    "flex-between flex-cross-center gap-16px flex-wrap border-b-1-s-l p-4px";
+    "flex-between flex-cross-center gap-16px flex-wrap border-b-1-s-l p-4px overflow-auto";
   const liChildrenClass = "flex-column gap-4px";
 
   return (
