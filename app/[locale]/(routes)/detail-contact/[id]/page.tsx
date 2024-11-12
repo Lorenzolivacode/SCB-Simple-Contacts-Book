@@ -8,6 +8,9 @@ import BtnModifier from "@/app/[locale]/(components)/(Atoms)/BtnModifier/BtnModi
 import { useTranslations } from "next-intl";
 import Form from "@/app/[locale]/(components)/(Molecules)/Form/Form";
 import BtnLinkAction from "@/app/[locale]/(components)/(Atoms)/BtnLinkAction/BtnLinkAction";
+import { DELETE, GET, PUT } from "@/app/[locale]/(function)/api";
+import { useRouter } from "@/i18n/routing";
+import IconDelete from "@/app/[locale]/(components)/(Atoms)/(Icons-svg)/Icon-delete";
 
 interface DetailProps {
   params: Promise<{ id: number | string }>;
@@ -18,36 +21,29 @@ function DetailContact({ params }: DetailProps) {
 
   const [isModifyOpen, setIsModifyOpen] = useState(false);
 
-  const [contacts, setContacts] = useState<Contact[]>([]);
   const [contact, setContact] = useState<Contact | null>(null);
+  const [checkFavorite, setCheckFavorite] = useState(false);
 
   const [error, setError] = useState("");
 
   const unwrappedParams = use(params);
+  const id = Number(unwrappedParams.id);
+  const router = useRouter();
 
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetch(`/api/contacts/${unwrappedParams.id}`);
-        console.log("res", res);
+    console.log("contact: ", contact);
+    /* handlePUT(); */
+  }, [contact]);
 
-        if (!res.ok) {
-          throw new Error(t("notFound"));
-        }
+  const handleGET = async () => {
+    const data = await GET({ id: id, error: setError });
+    setContact(data);
+  };
 
-        const data = await res.json();
-        console.log("Lista:", data);
-
-        setContact(data);
-      } catch (err) {
-        console.error("Errore durante la lettura dei contatti:", err);
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError(t("error"));
-        }
-      }
-    })();
+  useEffect(() => {
+    if (id) {
+      handleGET();
+    }
   }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,11 +51,46 @@ function DetailContact({ params }: DetailProps) {
       setContact({ ...contact, [event.target.name]: event.target.value });
   };
 
-  const handlePUT = (e: FormEvent) => {
-    e.preventDefault();
-    console.log("Modifica:", contact);
+  const handlePUT = async (e?: FormEvent) => {
+    if (e) e.preventDefault();
+    if (contact) {
+      const data = await PUT({ id: contact.id, contact, error: setError });
+      console.log("PUT data", data);
+
+      /* handleGET(); */
+    }
     setIsModifyOpen(false);
   };
+
+  const handleDELETE = async () => {
+    if (contact) {
+      try {
+        await DELETE({ id: contact.id, error: setError });
+        router.replace("/");
+      } catch (err) {
+        console.error("Errore durante la eliminazione del contatto:", err);
+        setError(t("error"));
+      }
+    }
+  };
+
+  const handleFavorite = () => {
+    if (contact) {
+      setContact({
+        ...contact,
+        favorite: contact.favorite === 0 ? 1 : 0,
+      });
+      setCheckFavorite(!checkFavorite);
+    }
+  };
+
+  useEffect(() => {
+    handlePUT();
+  }, [checkFavorite]);
+
+  useEffect(() => {
+    console.log("Modifica:", contact);
+  }, [contact]);
 
   if (error.length > 0 || contact == null) {
     return (
@@ -75,15 +106,31 @@ function DetailContact({ params }: DetailProps) {
   const liChildrenClass = "flex-column gap-4px";
 
   return (
-    <div className="relative flex-column gap-50px w-full">
+    <div className="relative flex-column gap-50px mt-50px w-full">
       <div className="flex-between flex-cross-center gap-20px flex-wrap">
         <IconUser />
-        <div className="flex-wrap gap-10px row-gap-5px">
+        <div
+          title={`${contact.firstName} ${contact.lastName}`}
+          className="flex-column gap-10px row-gap-5px overflow-hidden"
+        >
           <h2>{contact.firstName}</h2>
           <h2>{contact.lastName}</h2>
         </div>
-        {contact.favorite > 0 && <IconStar width={30} />}
+        <button
+          onClick={() => handleFavorite()}
+          className="reset-default hover-transition-40ms-easyin hover-active-scale-115 pointer"
+        >
+          <IconStar width={30} fill={contact.favorite ? undefined : "none"} />
+        </button>
       </div>
+      <button
+        title={t("delete")}
+        className="btn-reset-with-bg fixed top-90px right-90px flex-center radius-50p w-40px ratio-1 bg-primary-sat-medium-light hover-transition-40ms-easyin hover-active-scale-115"
+        onClick={handleDELETE}
+      >
+        <IconDelete width={30} stroke="#ffffff" />
+      </button>
+      <BtnModifier onClick={() => setIsModifyOpen(true)} />
       <ul className="flex-column gap-20px">
         <li className={liClass}>
           <div className={liChildrenClass}>
@@ -91,7 +138,10 @@ function DetailContact({ params }: DetailProps) {
             <p>{contact.phone}</p>
           </div>
           {contact && (
-            <BtnLinkAction contact={`tel: ${contact.phone}`} label="Chiama" />
+            <BtnLinkAction
+              contact={`tel: ${contact.phone}`}
+              label={t("call")}
+            />
           )}
         </li>
         <li className={liClass}>
@@ -102,12 +152,11 @@ function DetailContact({ params }: DetailProps) {
           {contact && (
             <BtnLinkAction
               contact={`mailto: ${contact.email}`}
-              label="Scrivi"
+              label={t("write")}
             />
           )}
         </li>
       </ul>
-      <BtnModifier onClick={() => setIsModifyOpen(true)} />
       {isModifyOpen && (
         <div className="absolute left-0 p-20px w-full z-i-100 bg-primary-dark">
           <button

@@ -7,17 +7,30 @@
   margin: 5px;
 }
 
-.mt-30px {
-  margin-top: 30px;
-}
-
 /* -MARGIN TOP */
 .mt-100px {
   margin-top: 100px;
 }
 
+.mt-75px {
+  margin-top: 75px;
+}
+
 .mt-70px {
   margin-top: 70px;
+}
+
+.mt-50px {
+  margin-top: 50px;
+}
+
+.mt-30px {
+  margin-top: 30px;
+}
+
+/* MARGIN RIGHT */
+.mr-4px {
+  margin-right: 4px;
 }
 
 /* -MARGIN BOTTOM */
@@ -64,6 +77,10 @@
 
 .p-t-110px {
   padding-top: 110px;
+}
+
+.p-r-4px {
+  padding-right: 4px;
 }
 
 .p-r-20px {

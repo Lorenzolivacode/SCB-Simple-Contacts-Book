@@ -2,6 +2,7 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import Form from "../../(components)/(Molecules)/Form/Form";
 import { Contact } from "@/app/(interface)/(types)/contact";
+import { useRouter } from "@/i18n/routing";
 
 function AddContact() {
   const [newContact, setNewContact] = useState({
@@ -9,8 +10,10 @@ function AddContact() {
     lastName: "",
     phone: "",
     email: "",
-    favorite: 1,
+    favorite: 0,
   });
+
+  const router = useRouter();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewContact({ ...newContact, [event.target.name]: event.target.value });
@@ -34,6 +37,7 @@ function AddContact() {
     e.preventDefault();
     const post = POST(newContact);
     console.log("POST effetuata", post);
+    router.replace("/");
   };
   return (
     <Form

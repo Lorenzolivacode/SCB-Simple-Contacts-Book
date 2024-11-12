@@ -58,6 +58,10 @@
   top: 120px;
 }
 
+.top-170px {
+  top: 170px;
+}
+
 .top-50p {
   top: 50%;
 }
@@ -66,6 +70,10 @@
 
 .right-0 {
   right: 0;
+}
+
+.right-10px {
+  right: 10px;
 }
 
 .right-20px {
@@ -91,6 +99,14 @@
 
 .bottom-20px {
   bottom: 20px;
+}
+
+.bottom-60px {
+  bottom: 60px;
+}
+
+.bottom-80px {
+  bottom: 80px;
 }
 
 /* LEFT */

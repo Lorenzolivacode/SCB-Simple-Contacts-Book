@@ -11,6 +11,10 @@
   },
   "DetailContact": {
     "notFound": "Il contatto non esiste",
-    "error": "Errore durante la lettura dei contatti"
+    "error": "Errore durante la lettura dei contatti",
+    "call": "Chiama",
+    "write": "Scrivi",
+    "delete": "Cancella contatto",
+    "modify": "Modifica contatto"
   }
 }

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "SCB",
   description: "A simple contacts book",
   icons: {
-    icon: "/icons-book.png",
+    icon: "/icon-scb.png",
   },
 };
 
@@ -28,7 +28,7 @@ export default async function RootLayout({
       <body>
         <NextIntlClientProvider messages={messages}>
           <Header />
-          <main className="flex-column gap-50px flex-cross-center p-20px p-t-40px m-auto">
+          <main className="flex-column gap-50px flex-cross-center p-20px p-t-40px m-auto overflow-hidden">
             {children}
           </main>
         </NextIntlClientProvider>
