@@ -213,6 +213,14 @@
   max-width: 70%;
 }
 
+.max-w-80p {
+  max-width: 80%;
+}
+
+.max-w-90p {
+  max-width: 90%;
+}
+
 /* -- PIXEL */
 .max-w-40px {
   max-width: 40px;

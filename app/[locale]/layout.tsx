@@ -28,7 +28,7 @@ export default async function RootLayout({
       <body>
         <NextIntlClientProvider messages={messages}>
           <Header />
-          <main className="flex-column gap-50px flex-cross-center p-20px p-t-40px m-auto overflow-hidden">
+          <main className="flex-column gap-50px flex-cross-center m-auto overflow-hidden">
             {children}
           </main>
         </NextIntlClientProvider>

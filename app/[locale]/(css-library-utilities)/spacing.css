@@ -71,8 +71,12 @@
   padding: 20px;
 }
 
+.p-t-8px {
+  padding-top: 8px;
+}
+
 .p-t-40px {
-  padding: 40px;
+  padding-top: 40px;
 }
 
 .p-t-110px {
@@ -81,6 +85,10 @@
 
 .p-r-4px {
   padding-right: 4px;
+}
+
+.p-r-8px {
+  padding-right: 8px;
 }
 
 .p-r-20px {
@@ -93,6 +101,10 @@
 
 .p-b-4px {
   padding-bottom: 4px;
+}
+
+.p-b-8px {
+  padding-bottom: 8px;
 }
 
 .p-b-20px {
@@ -159,6 +171,11 @@
 .p-y-6px {
   padding-top: 6px;
   padding-bottom: 6px;
+}
+
+.p-y-8px {
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .p-y-12px {

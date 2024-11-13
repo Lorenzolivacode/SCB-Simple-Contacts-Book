@@ -58,9 +58,18 @@
   gap: 30px;
 }
 
+.gap-32px {
+  gap: 32px;
+}
+
+.gap-48px {
+  gap: 48px;
+}
+
 .gap-50px {
   gap: 50px;
 }
+
 .gap-80px {
   gap: 80px;
 }
@@ -90,6 +99,22 @@
 .flex-cross-center {
   display: flex;
   align-items: center;
+}
+
+.flex-cross-start {
+  display: flex;
+  align-items: start;
+}
+
+/* -MAIN AXIS */
+.flex-main-center {
+  display: flex;
+  justify-content: center;
+}
+
+.flex-main-start {
+  display: flex;
+  justify-content: start;
 }
 
 /* WRAP */

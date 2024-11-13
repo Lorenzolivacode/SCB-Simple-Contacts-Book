@@ -71,6 +71,7 @@ body {
 }
 
 main {
+  padding: 40px 8px;
   width: 100%;
   min-height: 100dvh;
 }
@@ -83,6 +84,12 @@ a {
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
+  }
+}
+
+@media screen and (min-width: 276px) {
+  main {
+    padding: 40px 20px;
   }
 }
 

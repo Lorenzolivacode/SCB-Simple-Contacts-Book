@@ -1,9 +1,20 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import styles from "./BtnSetting.module.css";
 
-function BtnSetting() {
+function BtnSetting({
+  state,
+  setState,
+}: {
+  state: boolean;
+  setState: Dispatch<SetStateAction<boolean>>;
+}) {
   return (
-    <button className={`${styles.btn}`}>
+    <button
+      onClick={() => setState(!state)}
+      className={`${styles.btn} ${
+        state ? styles.btn_active : styles.btn_inactive
+      }`}
+    >
       <svg
         width="20px"
         height="20px"

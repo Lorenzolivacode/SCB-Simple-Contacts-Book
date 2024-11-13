@@ -11,6 +11,7 @@ import BtnLinkAction from "@/app/[locale]/(components)/(Atoms)/BtnLinkAction/Btn
 import { DELETE, GET, PUT } from "@/app/[locale]/(function)/api";
 import { useRouter } from "@/i18n/routing";
 import IconDelete from "@/app/[locale]/(components)/(Atoms)/(Icons-svg)/Icon-delete";
+import { getCookie } from "@/app/[locale]/(function)/cookie";
 
 interface DetailProps {
   params: Promise<{ id: number | string }>;
@@ -18,6 +19,8 @@ interface DetailProps {
 function DetailContact({ params }: DetailProps) {
   const tForm = useTranslations("ContactForm");
   const t = useTranslations("DetailContact");
+
+  const isOrderNameSur = getCookie("isOrderNameSur") === "true";
 
   const [isModifyOpen, setIsModifyOpen] = useState(false);
 
@@ -113,8 +116,17 @@ function DetailContact({ params }: DetailProps) {
           title={`${contact.firstName} ${contact.lastName}`}
           className="flex-column gap-10px row-gap-5px overflow-hidden"
         >
-          <h2>{contact.firstName}</h2>
-          <h2>{contact.lastName}</h2>
+          {isOrderNameSur ? (
+            <>
+              <h2>{contact.firstName}</h2>
+              <h2>{contact.lastName}</h2>
+            </>
+          ) : (
+            <>
+              <h2>{contact.lastName}</h2>
+              <h2>{contact.firstName}</h2>
+            </>
+          )}
         </div>
         <button
           onClick={() => handleFavorite()}

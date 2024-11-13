@@ -14,10 +14,10 @@ function InputSearch({ onSearchContacts }: inputProps) {
     console.log("Input", search);
   }, [search]);
   return (
-    <div className="flex gap-10px">
+    <div className="flex-center gap-10px max-w-90p">
       <IconSearch fill="none"></IconSearch>
       <input
-        className="input-reset-with-border border-br-1-s-l radius-20px-1s4-3 p-l-4px p-b-4px"
+        className="input-reset-with-border grow-1 border-br-1-s-l radius-20px-1s4-3 p-l-4px p-b-4px max-w-80p"
         type="text"
         value={search}
         placeholder="Search contanct"

@@ -1,0 +1,13 @@
+.settings {
+  transition: all 0.8s ease-in-out;
+}
+
+.settings_closed {
+  padding: 0;
+  max-height: 0;
+}
+
+.settings_opened {
+  padding: 8px;
+  max-height: 1000px;
+}

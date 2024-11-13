@@ -11,7 +11,47 @@
   cursor: pointer;
 }
 
-.circle {
+.btn_active {
+  animation: activated 2s ease-in-out forwards;
+  animation: infinite_rotation 4s ease-in-out infinite;
+}
+
+.btn_inactive {
+  animation: activated_reverse 2s ease-in-out forwards;
+}
+
+@keyframes activated {
+  /* from {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  } */
+  to {
+    opacity: 0.6;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes infinite_rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes activated_reverse {
+  from {
+    opacity: 0.6;
+    transform: scale(0.85) rotate(360deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* .circle {
   border-radius: 50%;
   width: 50%;
   aspect-ratio: 1/1;
@@ -23,16 +63,12 @@
   display: flex;
   align-items: start;
   justify-content: center;
-  /* border: 1px solid white; */
   padding-top: 3px;
   width: 8px;
   height: 100%;
 }
 
 .dot {
-  /* position: absolute;
-  top: 0;
-  left: 0; */
   border-radius: 40%;
   width: 6px;
   height: 6px;
@@ -67,3 +103,4 @@
 .btn > .dot_container:nth-child(8) {
   transform: rotate(315deg);
 }
+ */

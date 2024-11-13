@@ -15,13 +15,16 @@ import BtnFavorites from "./(components)/(Atoms)/BtnFavorites/BtnFavorites";
 import BtnOption from "./(components)/(Atoms)/BtnOption/BtnOption";
 import IconReverse from "./(components)/(Atoms)/(Icons-svg)/Icon-reverse";
 import IconViewDetails from "./(components)/(Atoms)/(Icons-svg)/Icon-view-details";
+import SettingOptions from "./(components)/(Molecules)/SettingOptions/SettingOptions";
+import { checkCookieBoolean, handleCookieBoolean } from "./(function)/cookie";
 
 export default function Home() {
   const [contacts, setContacts] = useState<Contact[]>([]);
-  const [filteredContacts, setFilteredContacts] = useState<Contact[]>([]);
   const [orderedContacts, setOrderedContacts] = useState<Contact[]>([]);
 
-  const [numberContacts, setnumberContacts] = useState(0);
+  const [isSettingOpen, setIsSettingOpen] = useState(false);
+  const [numberContacts, setNumberContacts] = useState(0);
+  const [numberFavorites, setNumberFavorites] = useState(0);
   const [isOrderNameSur, setIsOrderNameSur] = useState(true);
   const [isOrderEmail, setIsOrderEmail] = useState(false);
   const [isVisibleDetails, setIsVisibleDetails] = useState(false);
@@ -38,9 +41,14 @@ export default function Home() {
   const handleGET = async () => {
     setIsLoading(true);
     const data = await GET({ error: setError });
+
+    const copyData = [...data];
+    const favorites = copyData.filter((c) => c.favorite === 1);
+
     setContacts(data);
     handleSort(data);
-    setnumberContacts(data.length);
+    setNumberContacts(data.length);
+    setNumberFavorites(favorites.length);
     setIsLoading(false);
     return data;
   };
@@ -87,6 +95,10 @@ export default function Home() {
   };
 
   useEffect(() => {
+    checkCookieBoolean(isOrderNameSur, setIsOrderNameSur);
+  }, []);
+
+  useEffect(() => {
     if (updatedContact) {
       handlePUT(updatedContact);
       setUpdatedContact(null); //Evita loop
@@ -101,47 +113,54 @@ export default function Home() {
     if (contacts.length === 0) return;
     const sortedContacts = [...contacts];
 
+    if (isFavoriteList) {
+      const favorites = sortedContacts.filter((c) => c.favorite === 1);
+      handleSort(favorites);
+      return;
+    }
+
     handleSort(sortedContacts);
-  }, [isOrderNameSur, isOrderEmail]);
+  }, [isOrderNameSur, isOrderEmail, isFavoriteList]); //TODO aggiungere nelle dipendenze anche il controllo sul check della visualizzazione dei preferiti
 
   /*TODO const obj ={
-  a: [
-    {
-      id: 1,
-      firstName: "Alberto",
-      lastName: "Oliva",
-      phone: "3208121031",
-      email: "lore@lore.it",
-      favorite: true,
-    },
-    {
-      id: 2,
-      firstName: "Alessandro",
-      lastName: "Valgua",
-      phone: "3400012345",
-      email: "erick@lore.it",
-      favorite: false,
-    },
-  ],
-  b:[
-    {
-      id: 3,
-      firstName: "Bho",
-      lastName: "Oliva",
-      phone: "3208121031",
-      email: "lore@lore.it",
-      favorite: true,
-    },
-    {
-      id: 4,
-      firstName: "Beppe",
-      lastName: "Valgua",
-      phone: "3400012345",
-      email: "erick@lore.it",
-      favorite: false,
-    },
-  ]
-} */
+    a: [
+      {
+        id: 1,
+        firstName: "Alberto",
+        lastName: "Oliva",
+        phone: "3208121031",
+        email: "lore@lore.it",
+        favorite: true,
+      },
+      {
+        id: 2,
+        firstName: "Alessandro",
+        lastName: "Valgua",
+        phone: "3400012345",
+        email: "erick@lore.it",
+        favorite: false,
+      },
+    ],
+    b:[
+      {
+        id: 3,
+        firstName: "Bho",
+        lastName: "Oliva",
+        phone: "3208121031",
+        email: "lore@lore.it",
+        favorite: true,
+      },
+      {
+        id: 4,
+        firstName: "Beppe",
+        lastName: "Valgua",
+        phone: "3400012345",
+        email: "erick@lore.it",
+        favorite: false,
+      },
+    ]
+  } */
+
   //TODO modale di ricerca lettere con link => #lettera titolo
 
   if (error.length > 0 || contacts.length < 1) {
@@ -159,18 +178,38 @@ export default function Home() {
   return (
     <>
       <InputSearch onSearchContacts={handleSearchContacts} />
-      <div className="flex-center gap-8px w-full">
-        <BtnSetting />
-        <BtnFavorites />
-      </div>
-      <section className="settings overflow-hidden flex-center flex-wrap gap-16px radius-4px shadow-inset-p-very-dark border1-s-v-l p-8px w-full bg-primary-dark">
+      <section className="flex-column gap-8px">
+        <div className="flex-center gap-8px w-full max-w-90p">
+          <BtnSetting state={isSettingOpen} setState={setIsSettingOpen} />
+          <BtnFavorites
+            isFavoritesList={isFavoriteList}
+            setIsFavoritesList={setIsFavoriteList}
+          />
+        </div>
+        <SettingOptions
+          isOpen={isSettingOpen}
+          numberContacts={numberContacts}
+          numberFavorites={numberFavorites}
+          nameState={isOrderNameSur}
+          setName={() =>
+            handleCookieBoolean(`isOrderNameSur`, setIsOrderNameSur, 10)
+          }
+          emailState={isOrderEmail}
+          setEmail={() => setIsOrderEmail(!isOrderEmail)}
+          detailsState={isVisibleDetails}
+          setDetails={() => setIsVisibleDetails(!isVisibleDetails)}
+          reverseState={isReverseList}
+          setReverse={() => setIsReverseList(!isReverseList)}
+        />
+      </section>
+      {/*  <section className="settings overflow-hidden flex-center flex-wrap gap-16px radius-4px shadow-inset-p-very-dark border1-s-v-l p-8px w-full bg-primary-dark">
         <div className={containerLabelBtnClass}>
-          <p className="w-20px h-20px bg-primary-sat-medium-light p-2px radius-50p f-size-0d7">
-            {numberContacts}
-          </p>
           <label className="txt-center f-size-0d7">
             {t("numberOfContacts")}
           </label>
+          <p className="w-20px h-20px bg-primary-sat-medium-light p-2px radius-50p f-size-0d7">
+            {numberContacts}
+          </p>
         </div>
         <div className={containerLabelBtnClass}>
           <Toggle active={isOrderNameSur} setActive={setIsOrderNameSur} />
@@ -200,7 +239,7 @@ export default function Home() {
           </BtnOption>
           <label className="txt-center f-size-0d7">{t("reverse")}</label>
         </div>
-      </section>
+      </section> */}
       <BtnAdd />
       <MainList
         onFavorite={handleFavorite}

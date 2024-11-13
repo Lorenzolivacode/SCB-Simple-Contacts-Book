@@ -1,11 +1,15 @@
 {
   "Home": {
     "numberOfContacts": "Numero di contatti",
+    "numberOfFavorites": "Numero di preferiti",
     "nameOrdered": "Ordinato per nome",
     "surnameOrdered": "Ordinato per cognome",
     "emailOrdered": "Ordina per email",
     "viewDetails": "Visualizza dettagli",
-    "reverse": "Inverti ordine"
+    "reverse": "Inverti ordine",
+    "selectedLabel": "Seleziona la lingua",
+    "italianLabel": "Italiano",
+    "englishLabel": "Inglese"
   },
   "ContactForm": {
     "titlePost": "Aggiungi un contatto",

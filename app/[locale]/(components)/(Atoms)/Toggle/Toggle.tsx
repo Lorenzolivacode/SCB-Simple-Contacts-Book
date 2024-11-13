@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import style from "./Toggle.module.css";
+import styles from "./Toggle.module.css";
 
 interface SwitchProps {
   active: boolean;
@@ -8,11 +8,11 @@ interface SwitchProps {
 function Switch({ active, setActive }: SwitchProps) {
   return (
     <div
-      className={`${style.main} ${active ? style.active : ""}`}
+      className={`${styles.main} ${active ? styles.active : ""}`}
       onClick={() => setActive(!active)}
     >
-      <div className={style.mask}>
-        <div className={style.dot} />
+      <div className={styles.mask}>
+        <div className={styles.dot} />
       </div>
     </div>
   );

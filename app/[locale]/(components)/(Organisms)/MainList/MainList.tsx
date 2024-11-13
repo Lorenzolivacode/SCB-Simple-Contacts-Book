@@ -1,9 +1,12 @@
+"use client";
+
 import { Contact } from "@/app/(interface)/(types)/contact";
 import React, { useState } from "react";
 import IconStar from "../../(Atoms)/(Icons-svg)/Icon-star";
 import IconDetaislList from "../../(Atoms)/(Icons-svg)/Icon-detailsList";
 import { Link } from "@/i18n/routing";
 import { DELETE } from "@/app/[locale]/(function)/api";
+import { useTranslations } from "next-intl";
 
 interface MainListProps {
   list: Contact[];
@@ -19,6 +22,8 @@ function MainList({
   isVisibleDetail,
   isReverseList,
 }: MainListProps) {
+  const t = useTranslations("ContactForm");
+
   const btnClasses =
     "reset-default hover-transition-40ms-easyin hover-active-scale-115 pointer";
 
@@ -40,11 +45,11 @@ function MainList({
               {isVisibleDetail && (
                 <div className="flex-wrap gap-8px f-size-0d8">
                   <div className="flex-column overflow-hidden">
-                    <strong>Email:</strong>
+                    <strong>{t("email")}</strong>
                     <p>{contact.email}</p>
                   </div>
                   <div className="flex-column overflow-hidden">
-                    <strong>Telefono:</strong>
+                    <strong>{t("phone")}</strong>
                     <p>{contact.phone}</p>
                   </div>
                 </div>
