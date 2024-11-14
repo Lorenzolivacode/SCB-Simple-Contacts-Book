@@ -15,7 +15,9 @@ export async function GET({ id = 0, error }: ApiProps) {
     }
     const data = await res.json();
     return data;
-  } catch {
+  } catch (err) {
+    if (typeof err === "string") error(err);
+
     error("Error reading contacts");
   }
 }
@@ -33,7 +35,9 @@ export async function PUT({ id, contact, error }: ApiProps) {
 
     const message = await res.json();
     return message;
-  } catch {
+  } catch (err) {
+    if (typeof err === "string") error(err);
+
     error("Failed to update contact");
   }
 }
@@ -50,7 +54,9 @@ export async function DELETE({ id, error }: ApiProps) {
 
     const message = await res.json();
     return message;
-  } catch {
+  } catch (err) {
+    if (typeof err === "string") error(err);
+
     error("Failed to delete contact");
   }
 }

@@ -59,7 +59,6 @@ function DetailContact({ params }: DetailProps) {
     if (e) e.preventDefault();
     if (contact) {
       const data = await PUT({ id: contact.id, contact, error: setError });
-      console.log("PUT data", data);
 
       /* handleGET(); */
     }
@@ -92,9 +91,7 @@ function DetailContact({ params }: DetailProps) {
     handlePUT();
   }, [checkFavorite]);
 
-  useEffect(() => {
-    console.log("Modifica:", contact);
-  }, [contact]);
+  useEffect(() => {}, [contact]);
 
   if (error.length > 0 || contact == null) {
     if (isLoading) return <LoadingComponent />;

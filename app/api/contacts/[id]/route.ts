@@ -12,15 +12,12 @@ export async function GET(
       .prepare("SELECT * FROM contacts WHERE id = ?")
       .get(params.id) as Contact;
     if (!contact) {
-      return NextResponse.json(
-        { error: "Contatto non trovato" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Contact not found" }, { status: 404 });
     }
     return NextResponse.json(contact);
-  } catch {
+  } catch (error) {
     return NextResponse.json(
-      { error: "Errore durante il recupero del contatto" },
+      { error: "Error retrieving contact" },
       { status: 500 }
     );
   }
@@ -48,16 +45,13 @@ export async function PUT(
     );
 
     if (info.changes === 0) {
-      return NextResponse.json(
-        { error: "Contatto non trovato" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Contact not found" }, { status: 404 });
     }
 
     return NextResponse.json({ message: "Contatto aggiornato con successo" });
-  } catch {
+  } catch (error) {
     return NextResponse.json(
-      { error: "Errore durante l'aggiornamento del contatto" },
+      { error: "Error updating contact" },
       { status: 500 }
     );
   }
@@ -73,16 +67,13 @@ export async function DELETE(
     const info = stmt.run(params.id);
 
     if (info.changes === 0) {
-      return NextResponse.json(
-        { error: "Contatto non trovato" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Contact not found" }, { status: 404 });
     }
 
     return NextResponse.json({ message: "Contatto eliminato con successo" });
-  } catch {
+  } catch (error) {
     return NextResponse.json(
-      { error: "Errore durante l'eliminazione del contatto" },
+      { error: "Error deleting contact" },
       { status: 500 }
     );
   }

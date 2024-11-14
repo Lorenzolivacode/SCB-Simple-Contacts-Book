@@ -6,7 +6,7 @@ export async function GET() {
   try {
     const contacts = db.prepare("SELECT * FROM contacts").all() as Contact[];
     return NextResponse.json(contacts);
-  } catch {
+  } catch (error) {
     return NextResponse.json(
       { error: "Error while retrieving contacts" },
       { status: 500 }
@@ -38,7 +38,7 @@ export async function GETByID(request: NextRequest) {
       const contacts = db.prepare("SELECT * FROM contacts").all() as Contact[];
       return NextResponse.json(contacts);
     }
-  } catch {
+  } catch (error) {
     return NextResponse.json(
       { error: "Error while retrieving contacts" },
       { status: 500 }
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
     };
 
     return NextResponse.json(newContact, { status: 201 });
-  } catch {
+  } catch (error) {
     return NextResponse.json(
       { error: "Error entering contact" },
       { status: 500 }

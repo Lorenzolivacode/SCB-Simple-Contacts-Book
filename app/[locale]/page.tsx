@@ -57,7 +57,6 @@ export default function Home() {
         a.email.localeCompare(b.email)
       );
       setOrderedContacts(alphabeticOrder);
-      console.log("sorted", orderedContacts);
     } else if (isOrderNameSur) {
       const alphabeticOrder = data.sort((a, b) =>
         a.firstName.localeCompare(b.firstName)
