@@ -3,14 +3,11 @@ import { db } from "@/app/lib/db";
 import { Contact } from "@/app/(interface)/(types)/contact";
 
 // GET - Recupera un singolo contatto tramite ID
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(_: NextRequest, context: { params: { id: string } }) {
   try {
     const contact = db
       .prepare("SELECT * FROM contacts WHERE id = ?")
-      .get(params.id) as Contact;
+      .get(context.params.id) as Contact;
     if (!contact) {
       return NextResponse.json({ error: "Contact not found" }, { status: 404 });
     }
@@ -27,7 +24,7 @@ export async function GET(
 // PUT - Aggiorna un contatto tramite ID
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
     const { firstName, lastName, phone, email, favorite } =
@@ -42,7 +39,7 @@ export async function PUT(
       phone,
       email,
       favorite,
-      params.id
+      context.params.id
     );
 
     if (info.changes === 0) {
@@ -62,11 +59,11 @@ export async function PUT(
 // DELETE - Elimina un contatto tramite ID
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
     const stmt = db.prepare("DELETE FROM contacts WHERE id = ?");
-    const info = stmt.run(params.id);
+    const info = stmt.run(context.params.id);
 
     if (info.changes === 0) {
       return NextResponse.json({ error: "Contact not found" }, { status: 404 });
