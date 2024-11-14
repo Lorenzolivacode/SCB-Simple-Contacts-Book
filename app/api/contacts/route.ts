@@ -15,39 +15,6 @@ export async function GET() {
   }
 }
 
-export async function GETByID(request: NextRequest) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get("id");
-
-    if (id) {
-      // Recupera un singolo contatto in base all'ID
-      const contact = db
-        .prepare("SELECT * FROM contacts WHERE id = ?")
-        .get(id) as Contact;
-
-      if (!contact) {
-        return NextResponse.json(
-          { error: "Contact not found" },
-          { status: 404 }
-        );
-      }
-
-      return NextResponse.json(contact);
-    } else {
-      // Recupera tutti i contatti
-      const contacts = db.prepare("SELECT * FROM contacts").all() as Contact[];
-      return NextResponse.json(contacts);
-    }
-  } catch (error) {
-    console.error("Error while retrieving contacts:", error);
-    return NextResponse.json(
-      { error: "Error while retrieving contacts" },
-      { status: 500 }
-    );
-  }
-}
-
 export async function POST(request: NextRequest) {
   try {
     const { firstName, lastName, phone, email, favorite } =
