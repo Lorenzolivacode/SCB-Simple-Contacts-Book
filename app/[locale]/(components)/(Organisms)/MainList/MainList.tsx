@@ -6,8 +6,10 @@ import IconStar from "../../(Atoms)/(Icons-svg)/Icon-star";
 import IconDetailslList from "../../(Atoms)/(Icons-svg)/Icon-detailsList";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
+import { IAlphabetContacts } from "@/app/[locale]/(function)/handleAlphabet";
 
 interface MainListProps {
+  /* list: IAlphabetContacts | null; */
   list: Contact[];
   onFavorite: (contact: Contact) => void;
   isOrderNameSur: boolean;

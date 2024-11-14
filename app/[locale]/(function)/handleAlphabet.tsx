@@ -1,74 +1,19 @@
 import { Contact } from "@/app/(interface)/(types)/contact";
-
-interface IObject {
-  a: Contact[];
-  b: Contact[];
-  c: Contact[];
-  d: Contact[];
-  e: Contact[];
-  f: Contact[];
-  g: Contact[];
-  h: Contact[];
-  i: Contact[];
-  j: Contact[];
-  k: Contact[];
-  l: Contact[];
-  m: Contact[];
-  n: Contact[];
-  o: Contact[];
-  p: Contact[];
-  q: Contact[];
-  r: Contact[];
-  s: Contact[];
-  t: Contact[];
-  u: Contact[];
-  v: Contact[];
-  w: Contact[];
-  x: Contact[];
-  y: Contact[];
-  z: Contact[];
+export interface IAlphabetContacts {
+  [key: string]: any[];
 }
 
-/*TODO const obj ={
-    a: [
-      {
-        id: 1,
-        firstName: "Alberto",
-        lastName: "Oliva",
-        phone: "3208121031",
-        email: "lore@lore.it",
-        favorite: true,
-      },
-      {
-        id: 2,
-        firstName: "Alessandro",
-        lastName: "Valgua",
-        phone: "3400012345",
-        email: "erick@lore.it",
-        favorite: false,
-      },
-    ],
-    b:[
-      {
-        id: 3,
-        firstName: "Bho",
-        lastName: "Oliva",
-        phone: "3208121031",
-        email: "lore@lore.it",
-        favorite: true,
-      },
-      {
-        id: 4,
-        firstName: "Beppe",
-        lastName: "Valgua",
-        phone: "3400012345",
-        email: "erick@lore.it",
-        favorite: false,
-      },
-    ]
-  } */
+export const generateAlphabetArray = (): string[] => {
+  return Array.from({ length: 26 }, (_, i) => String.fromCharCode(97 + i));
+};
 
-const alphabet = [
+const generatealphabetObject = (): IAlphabetContacts => {
+  return generateAlphabetArray().reduce((acc, letter) => {
+    acc[letter] = [];
+    return acc;
+  }, {} as IAlphabetContacts);
+};
+/* const alphabet = [
   "a",
   "b",
   "c",
@@ -95,10 +40,10 @@ const alphabet = [
   "x",
   "y",
   "z",
-];
+]; */
 
 export const getContactsGroupedByFirstLetter = (data: Contact[]) => {
-  const contacts: IObject = {
+  /*   const contacts: IAlphabetContacts = {
     a: [],
     b: [],
     c: [],
@@ -125,14 +70,17 @@ export const getContactsGroupedByFirstLetter = (data: Contact[]) => {
     x: [],
     y: [],
     z: [],
-  };
+  }; */
+
+  const alphabet = generateAlphabetArray();
+  const contacts = generatealphabetObject();
   alphabet.map((letter) => {
     const contactsInLetter = data.filter((contact) => {
       return contact.firstName.toLowerCase().startsWith(letter);
     });
-    contacts[letter as keyof IObject] = contactsInLetter;
+    contacts[letter as keyof IAlphabetContacts] = contactsInLetter;
   });
-  console.log("Contacts", contacts);
+  /* console.log("Contacts", contacts); */
 
   return contacts;
 };

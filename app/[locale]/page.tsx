@@ -12,7 +12,9 @@ import SettingOptions from "./(components)/(Molecules)/SettingOptions/SettingOpt
 import { checkCookieBoolean, handleCookieBoolean } from "./(function)/cookie";
 import LoadingComponent from "./(components)/(Molecules)/LoadingComponent/LoadingComponent";
 
-import getContactsGroupedByFirstLetter from "@/app/[locale]/(function)/handleAlphabet";
+import getContactsGroupedByFirstLetter, {
+  IAlphabetContacts,
+} from "@/app/[locale]/(function)/handleAlphabet";
 
 export default function Home() {
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -32,6 +34,10 @@ export default function Home() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
+  const [dataGroup, setDataGroup] = useState<
+    { [key: string]: any[] } | IAlphabetContacts | null
+  >(null);
+
   /* const t = useTranslations("Home"); */
 
   const handleGET = async () => {
@@ -46,7 +52,9 @@ export default function Home() {
     setNumberContacts(data.length);
     setNumberFavorites(favorites.length);
     setIsLoading(false);
-    getContactsGroupedByFirstLetter(data);
+
+    const objData = getContactsGroupedByFirstLetter(data);
+    setDataGroup(objData);
     return data;
   };
 
@@ -95,6 +103,10 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    console.log("Data group:", dataGroup);
+  }, [dataGroup]);
+
+  useEffect(() => {
     if (updatedContact) {
       handlePUT(updatedContact);
       setUpdatedContact(null); //Evita loop
@@ -116,6 +128,9 @@ export default function Home() {
     }
 
     handleSort(sortedContacts);
+
+    const objData = getContactsGroupedByFirstLetter(sortedContacts);
+    setDataGroup(objData);
   }, [isOrderNameSur, isOrderEmail, isFavoriteList, contacts]);
 
   //TODO modale di ricerca lettere con link => #lettera titolo
@@ -163,6 +178,7 @@ export default function Home() {
       <MainList
         onFavorite={handleFavorite}
         list={orderedContacts}
+        /* list={dataGroup} */
         isOrderNameSur={isOrderNameSur}
         isVisibleDetail={isVisibleDetails}
         isReverseList={isReverseList}

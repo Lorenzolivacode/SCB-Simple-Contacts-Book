@@ -2,16 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/app/lib/db";
 import { Contact } from "@/app/(interface)/(types)/contact";
 
-interface RouteParams {
-  params: { id: string };
-}
-
 // GET - Recupera un singolo contatto tramite ID
-export async function GET(_: NextRequest, context: RouteParams) {
+export async function GET(
+  _: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
+    const { id } = await params;
     const contact = db
       .prepare("SELECT * FROM contacts WHERE id = ?")
-      .get(context.params.id) as Contact;
+      .get(id) as Contact;
     if (!contact) {
       return NextResponse.json({ error: "Contact not found" }, { status: 404 });
     }
@@ -26,22 +26,20 @@ export async function GET(_: NextRequest, context: RouteParams) {
 }
 
 // PUT - Aggiorna un contatto tramite ID
-export async function PUT(request: NextRequest, context: RouteParams) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
+    const { id } = await params;
+
     const { firstName, lastName, phone, email, favorite } =
       await request.json();
 
     const stmt = db.prepare(
       "UPDATE contacts SET firstName = ?, lastName = ?, phone = ?, email = ?, favorite = ? WHERE id = ?"
     );
-    const info = stmt.run(
-      firstName,
-      lastName,
-      phone,
-      email,
-      favorite,
-      context.params.id
-    );
+    const info = stmt.run(firstName, lastName, phone, email, favorite, id);
 
     if (info.changes === 0) {
       return NextResponse.json({ error: "Contact not found" }, { status: 404 });
@@ -58,10 +56,15 @@ export async function PUT(request: NextRequest, context: RouteParams) {
 }
 
 // DELETE - Elimina un contatto tramite ID
-export async function DELETE(_: NextRequest, context: RouteParams) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
+    const { id } = await params;
+
     const stmt = db.prepare("DELETE FROM contacts WHERE id = ?");
-    const info = stmt.run(context.params.id);
+    const info = stmt.run(id);
 
     if (info.changes === 0) {
       return NextResponse.json({ error: "Contact not found" }, { status: 404 });
