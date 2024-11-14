@@ -1,4 +1,8 @@
 /* BACKGROUND */
+.bg-background-0d8 {
+  background-color: var(--background-0d8);
+}
+
 .bg-primary-very-dark {
   background-color: var(--color-primary-very-dark);
 }

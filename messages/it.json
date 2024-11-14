@@ -18,7 +18,10 @@
     "surname": "Cognome",
     "phone": "Numero di telefono",
     "email": "Indirizzo email",
-    "submit": "Salva"
+    "submit": "Salva",
+    "saveContacts": "Salva il contatto",
+    "saveBtnDisabled": "Compila tutti i campi",
+    "insert": "Inserisci"
   },
   "DetailContact": {
     "notFound": "Il contatto non esiste",
@@ -27,5 +30,17 @@
     "write": "Scrivi",
     "delete": "Cancella contatto",
     "modify": "Modifica contatto"
+  },
+  "Components": {
+    "inputSearchPlaceholder": "Cerca contatto",
+    "btnSettingTitleOpen": "Apri impostazioni",
+    "btnSettingTitleClose": "Chiudi impostazioni",
+    "toggleTheme": "Seleziona tema",
+    "active": "attiva",
+    "viewFavorites": "Visualizza preferiti",
+    "addFavorites": "Aggiungi ai preferiti",
+    "removeFavorites": "Rimuovi dai preferiti",
+    "goDetails": "Va alla pagina dettagli",
+    "addContacts": "Aggiungi un contatto"
   }
 }

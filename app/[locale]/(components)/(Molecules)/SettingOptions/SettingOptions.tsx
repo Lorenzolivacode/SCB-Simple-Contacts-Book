@@ -1,11 +1,17 @@
 import React, { Dispatch, SetStateAction } from "react";
 import styles from "./SettingOptions.module.css";
 import { useTranslations } from "next-intl";
+import { useTheme } from "@/app/[locale]/(function)/useTheme";
+
 import IconViewDetails from "../../(Atoms)/(Icons-svg)/Icon-view-details";
 import IconReverse from "../../(Atoms)/(Icons-svg)/Icon-reverse";
 import BtnOption from "../../(Atoms)/BtnOption/BtnOption";
 import SelectLanguage from "../../(Atoms)/SelectLanguageInline-client/SelectLanguageInline";
 import Toggle from "../../(Atoms)/Toggle/Toggle";
+import IconUser from "../../(Atoms)/(Icons-svg)/Icon-user";
+import IconEmail from "../../(Atoms)/(Icons-svg)/Icon-email";
+import IconSun from "../../(Atoms)/(Icons-svg)/Icon-sun";
+import IconMoon from "../../(Atoms)/(Icons-svg)/Icon-moon";
 
 interface OptionProps {
   isOpen: boolean;
@@ -34,19 +40,28 @@ function SettingOptions({
   setReverse,
 }: OptionProps) {
   const t = useTranslations("Home");
+  const tComp = useTranslations("Components");
 
+  const { isDarkMode, toggleTheme } = useTheme();
+
+  {
+    /* <p className="txt-center l-height-1">8</p> */
+    {
+      /* <p className="txt-c-white txt-center l-height-1">@</p> */
+    }
+  }
   const options = [
     {
       state: nameState,
       setState: setName,
       label: nameState ? t("nameOrdered") : t("surnameOrdered"),
-      content: <p className="txt-center l-height-1">8</p>,
+      content: <IconUser width={16} fill1="#fff" fill2="#fff" fill3="#fff" />,
     },
     {
       state: emailState,
       setState: setEmail,
       label: t("emailOrdered"),
-      content: <p className="txt-center l-height-1">@</p>,
+      content: <IconEmail width={16} />,
     },
     {
       state: detailsState,
@@ -55,7 +70,7 @@ function SettingOptions({
       content: (
         <IconViewDetails
           width={16}
-          fill={detailsState ? "none" : "#ffffff"}
+          strokeCircle={!detailsState ? "none" : "#ffffff"}
           stroke="#ffffff"
         />
       ),
@@ -98,7 +113,11 @@ function SettingOptions({
           <ul className="flex-cross-start flex-main-center flex-wrap gap-16px">
             {options.map((option, i) => (
               <li key={i} className={containerLabelBtnClass}>
-                <BtnOption state={option.state} setState={option.setState}>
+                <BtnOption
+                  title={option.label}
+                  state={option.state}
+                  setState={option.setState}
+                >
                   {option.content}
                 </BtnOption>
                 <label className="f-size-0d7">{option.label}</label>
@@ -112,8 +131,23 @@ function SettingOptions({
         <li>
           <SelectLanguage />
         </li>
-        <li>
-          <Toggle active={nameState} setActive={setDetails} />
+        <li title={tComp("toggleTheme")} className="flex-cross-center gap-4px">
+          <IconSun
+            stroke={isDarkMode ? undefined : "#3a93dc"}
+            fill={isDarkMode ? "none" : "#3a93dc"}
+          />
+          <Toggle
+            title={`${isDarkMode ? "Dark mode" : "Light mode"} ${tComp(
+              "active"
+            )}`}
+            active={isDarkMode}
+            setActive={toggleTheme}
+          />
+          <IconMoon
+            width={16}
+            stroke={isDarkMode ? undefined : "#3a93dc"}
+            fill={isDarkMode ? undefined : "none"}
+          />
         </li>
       </ul>
     </section>

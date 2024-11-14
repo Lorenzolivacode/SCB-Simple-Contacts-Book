@@ -7,7 +7,7 @@
   border: 1px solid var(--color-primary-dark);
 }
 
-.border3-p-sat-m-l {
+.border2-p-sat-m-l {
   border: 2px solid var(--color-primary-saturated-medium-light);
 }
 
@@ -49,6 +49,10 @@
 /* SHADOW */
 .shadow-p-very-dark {
   box-shadow: 0 0 4px var(--color-primary-very-dark);
+}
+
+.shadow-p-sat-very-dark {
+  box-shadow: 0 0 8px 0px var(--color-primary-saturated-very-dark);
 }
 
 .shadow-light {
@@ -141,7 +145,7 @@
 }
 
 .radius-20px-1s4-3 {
-  border-radius: 0px 0px 20px 0px;
+  border-end-end-radius: 20px;
 }
 
 .radius-20px-3s4-1 {

@@ -1,4 +1,46 @@
 {
-  "Home": {},
-  "ContactForm": {}
+  "Home": {
+    "numberOfContacts": "Number of contacts",
+    "numberOfFavorites": "Number of favorites",
+    "nameOrdered": "Ordered by name",
+    "surnameOrdered": "Ordered by surname",
+    "emailOrdered": "Ordered by email",
+    "viewDetails": "View details",
+    "reverse": "Reverse order",
+    "selectedLabel": "Select language",
+    "italianLabel": "Italian",
+    "englishLabel": "English"
+  },
+  "ContactForm": {
+    "titlePost": "Add a contact",
+    "titlePut": "Edit contact",
+    "name": "Name",
+    "surname": "Surname",
+    "phone": "Phone number",
+    "email": "Email address",
+    "submit": "Save",
+    "saveContacts": "Save contact",
+    "saveBtnDisabled": "Fill in all fields",
+    "insert": "Insert"
+  },
+  "DetailContact": {
+    "notFound": "Contact does not exist",
+    "error": "Error while reading contacts",
+    "call": "Call",
+    "write": "Write",
+    "delete": "Delete contact",
+    "modify": "Edit contact"
+  },
+  "Components": {
+    "inputSearchPlaceholder": "Search contact",
+    "btnSettingTitleOpen": "Open settings",
+    "btnSettingTitleClose": "Close settings",
+    "toggleTheme": "Select theme",
+    "active": "activate",
+    "viewFavorites": "View favorites",
+    "addFavorites": "Add to favorites",
+    "removeFavorites": "Remove from favorites",
+    "goDetails": "Go to details page",
+    "addContacts": "Add a contact"
+  }
 }

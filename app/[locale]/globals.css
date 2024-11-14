@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Zain:wght@200;300;400;700;800;900&display=swap");
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0d0d0e;
+  --foreground: #ededed;
 
   --color-primary-very-dark: #080d13;
   --color-primary-dark: #121a22;
@@ -27,20 +27,31 @@
   --color-secondary-saturated-medium: #ffd46b;
   --color-secondary-saturated-light: #fff7cd;
 
+  --background-0d8: rgba(13, 13, 14, 0.8);
+
   --color-primary-very-dark-0d8: rgba(0, 9, 23, 0.8);
   --color-primary-very-dark-0d6: rgba(0, 9, 23, 0.6);
   --color-primary-very-dark-0d5: rgba(0, 9, 23, 0.5);
 }
 
-@media (prefers-color-scheme: dark) {
+.light-mode {
+  --background: #fffffe;
+  --foreground: #031929;
+
+  --color-primary-very-dark: #a78960;
+  --color-secondary-medium: #ecd9b4;
+  --color-primary-dark: #f8f7f3;
+  --color-secondary-light: #00436d;
+
+  --background-0d8: rgba(254, 254, 244, 0.8);
+}
+
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-
-    /* --color-primary-dark: #ecd9b4;
-    --color-secondary-light: #00436d; */
   }
-}
+} */
 
 * {
   margin: 0;
@@ -71,7 +82,7 @@ body {
 }
 
 main {
-  padding: 40px 8px;
+  padding: 70px 8px 140px 8px;
   width: 100%;
   min-height: 100dvh;
 }
@@ -81,15 +92,15 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
-}
+} */
 
 @media screen and (min-width: 276px) {
   main {
-    padding: 40px 20px;
+    padding: 70px 20px 110px 20px;
   }
 }
 

@@ -168,6 +168,11 @@
   padding-right: 10px;
 }
 
+.p-y-4px {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
 .p-y-6px {
   padding-top: 6px;
   padding-bottom: 6px;

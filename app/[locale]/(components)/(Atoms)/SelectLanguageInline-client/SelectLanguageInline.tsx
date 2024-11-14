@@ -67,7 +67,7 @@ function SelectLanguage() {
               </li>
               {index + 1 !== languages.length && (
                 <div
-                  key={crypto.randomUUID()}
+                  key={languages.length + 2}
                   className="w-2px h-25px radius-20px bg-secondary-light"
                 />
               )}

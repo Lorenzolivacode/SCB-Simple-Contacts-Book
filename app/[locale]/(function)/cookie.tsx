@@ -9,7 +9,7 @@ export const getCookie = (key: string) => {
   //([^;]+): uno o più caratteri fino al prossimo ; (il valore del cookie).
 };
 
-const setCookie = (key: string, value: string, days: number) => {
+export const setCookie = (key: string, value: string, days = 10) => {
   const expires = new Date();
   expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
   //+ days * 24 * 60 * 60 * 1000 aggiunge alla data corrente il numero di millisecondi che corrisponde ai giorni di durata specificati.

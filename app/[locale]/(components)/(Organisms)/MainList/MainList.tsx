@@ -23,6 +23,7 @@ function MainList({
   isReverseList,
 }: MainListProps) {
   const t = useTranslations("ContactForm");
+  const tComp = useTranslations("Components");
 
   const btnClasses =
     "reset-default hover-transition-40ms-easyin hover-active-scale-115 pointer";
@@ -44,11 +45,17 @@ function MainList({
               </h4>
               {isVisibleDetail && (
                 <div className="flex-wrap gap-8px f-size-0d8">
-                  <div className="flex-column overflow-hidden">
+                  <div
+                    title={t("email")}
+                    className="flex-column overflow-hidden"
+                  >
                     <strong>{t("email")}</strong>
                     <p>{contact.email}</p>
                   </div>
-                  <div className="flex-column overflow-hidden">
+                  <div
+                    title={t("phone")}
+                    className="flex-column overflow-hidden"
+                  >
                     <strong>{t("phone")}</strong>
                     <p>{contact.phone}</p>
                   </div>
@@ -57,10 +64,22 @@ function MainList({
             </div>
           </div>
           <div className="flex-center gap-10px">
-            <button onClick={() => onFavorite(contact)} className={btnClasses}>
-              <IconStar fill={contact.favorite > 0 ? "#ffffff" : "none"} />
+            <button
+              title={
+                contact.favorite > 0
+                  ? tComp("removeFavorites")
+                  : tComp("addFavorites")
+              }
+              onClick={() => onFavorite(contact)}
+              className={btnClasses}
+            >
+              <IconStar fill={contact.favorite > 0 ? "#ffd46b" : "none"} />
             </button>
-            <Link href={`/detail-contact/${contact.id}`} className={btnClasses}>
+            <Link
+              title={tComp("goDetails")}
+              href={`/detail-contact/${contact.id}`}
+              className={btnClasses}
+            >
               <IconDetaislList />
             </Link>
           </div>

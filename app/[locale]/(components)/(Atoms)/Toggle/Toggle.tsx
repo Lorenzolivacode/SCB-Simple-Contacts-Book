@@ -3,13 +3,15 @@ import styles from "./Toggle.module.css";
 
 interface SwitchProps {
   active: boolean;
-  setActive: Dispatch<SetStateAction<boolean>>;
+  setActive: () => void;
+  title?: string;
 }
-function Switch({ active, setActive }: SwitchProps) {
+function Switch({ active, setActive, title }: SwitchProps) {
   return (
     <div
+      title={title}
       className={`${styles.main} ${active ? styles.active : ""}`}
-      onClick={() => setActive(!active)}
+      onClick={setActive}
     >
       <div className={styles.mask}>
         <div className={styles.dot} />

@@ -12,6 +12,7 @@ import { DELETE, GET, PUT } from "@/app/[locale]/(function)/api";
 import { useRouter } from "@/i18n/routing";
 import IconDelete from "@/app/[locale]/(components)/(Atoms)/(Icons-svg)/Icon-delete";
 import { getCookie } from "@/app/[locale]/(function)/cookie";
+import LoadingComponent from "@/app/[locale]/(components)/(Molecules)/LoadingComponent/LoadingComponent";
 
 interface DetailProps {
   params: Promise<{ id: number | string }>;
@@ -20,7 +21,8 @@ function DetailContact({ params }: DetailProps) {
   const tForm = useTranslations("ContactForm");
   const t = useTranslations("DetailContact");
 
-  const isOrderNameSur = getCookie("isOrderNameSur") === "true";
+  /* const isOrderNameSur = getCookie("isOrderNameSur") === "true"; */
+  const [isOrderNameSur, setIsOrderNameSur] = useState(false);
 
   const [isModifyOpen, setIsModifyOpen] = useState(false);
 
@@ -28,10 +30,15 @@ function DetailContact({ params }: DetailProps) {
   const [checkFavorite, setCheckFavorite] = useState(false);
 
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const unwrappedParams = use(params);
   const id = Number(unwrappedParams.id);
   const router = useRouter();
+
+  useEffect(() => {
+    setIsOrderNameSur(getCookie("isOrderNameSur") === "true");
+  }, []);
 
   useEffect(() => {
     console.log("contact: ", contact);
@@ -39,8 +46,10 @@ function DetailContact({ params }: DetailProps) {
   }, [contact]);
 
   const handleGET = async () => {
+    setIsLoading(true);
     const data = await GET({ id: id, error: setError });
     setContact(data);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -96,6 +105,7 @@ function DetailContact({ params }: DetailProps) {
   }, [contact]);
 
   if (error.length > 0 || contact == null) {
+    if (isLoading) return <LoadingComponent />;
     return (
       <div className="flex-column flex-cross-center m-auto">
         {contact == null && <h2>404</h2>}
@@ -137,7 +147,7 @@ function DetailContact({ params }: DetailProps) {
       </div>
       <button
         title={t("delete")}
-        className="btn-reset-with-bg fixed top-90px right-90px flex-center radius-50p w-40px ratio-1 bg-primary-sat-medium-light hover-transition-40ms-easyin hover-active-scale-115"
+        className="btn-reset-with-bg fixed top-90px right-120px flex-center radius-50p w-60px ratio-1 bg-primary-sat-medium-light shadow-p-sat-very-dark hover-transition-40ms-easyin hover-active-scale-115"
         onClick={handleDELETE}
       >
         <IconDelete width={30} stroke="#ffffff" />

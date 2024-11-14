@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect } from "react";
+import React, { FormEvent } from "react";
 import { Contact } from "../../../../(interface)/(types)/contact";
 import { useTranslations } from "next-intl";
 
@@ -32,11 +32,6 @@ function Form({
       },
     ];
 
-  useEffect(() => {
-    console.log("contact", contact);
-    console.log("valid", formValidation);
-  }, [contact]);
-
   const firstNameValidation = contact.firstName.length;
   const lastNameValidation = contact.lastName.length;
   const phoneValidation = contact.phone.length;
@@ -55,11 +50,11 @@ function Form({
       {inputList.map((el) => {
         return (
           <input
-            className="p-x-6px"
+            className="input-reset-with-border p-x-6px p-y-4px border2-p-sat-m-l radius-4px radius-20px-1s4-3 txt-c-inherit"
             key={el.name}
             onChange={onChange}
             name={el.name}
-            title={el.name}
+            title={`${t("insert")} ${el.placeholder.toLowerCase()}`}
             value={String(contact[el.name])}
             type="text"
             placeholder={el.placeholder}
@@ -67,15 +62,16 @@ function Form({
         );
       })}
       <button
+        title={t("saveContacts")}
         disabled={!formValidation}
-        className={`hover-transition-40ms-easyin hover-opacity-85 hover-scale-98 txt-c-primary-dark radius-5px pointer ${
+        className={`hover-transition-40ms-easyin hover-opacity-85 hover-scale-98 f-size-1 txt-c-primary-medium radius-4px p-4px pointer ${
           formValidation
             ? "bg-secondary-sat-medium"
             : "bg-secondary-dark opacity-6"
         }`}
         type="submit"
       >
-        {t("submit")}
+        {formValidation ? t("submit") : t("saveBtnDisabled")}
       </button>
     </form>
   );

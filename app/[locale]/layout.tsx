@@ -5,6 +5,7 @@ import Header from "./(components)/(Organisms)/Header/Header";
 
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import { ThemeProvider } from "./(Provider)/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "SCB",
@@ -27,10 +28,12 @@ export default async function RootLayout({
     <html lang="it">
       <body>
         <NextIntlClientProvider messages={messages}>
-          <Header />
-          <main className="flex-column gap-50px flex-cross-center m-auto overflow-hidden">
-            {children}
-          </main>
+          <ThemeProvider>
+            <Header />
+            <main className="flex-column gap-50px flex-cross-center m-auto mt-70px overflow-hidden">
+              {children}
+            </main>
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>

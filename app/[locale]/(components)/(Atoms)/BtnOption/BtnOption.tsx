@@ -3,14 +3,17 @@ import React, { Dispatch, SetStateAction } from "react";
 function BtnOption({
   state,
   setState,
+  title,
   children,
 }: {
   state: boolean;
   setState: () => void;
+  title: string;
   children: React.ReactNode;
 }) {
   return (
     <button
+      title={title}
       onClick={setState}
       className={`${
         state ? "opacity-6 scale-97" : ""

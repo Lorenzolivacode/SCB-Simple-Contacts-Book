@@ -7,7 +7,7 @@ import Image from "next/image";
 
 function Header() {
   return (
-    <header className="relative fixed top-0 flex-around p-12px w-full z-i-110 shadow-light-minus10">
+    <header className="fixed top-0 flex-around p-12px w-full h-70px z-i-110 shadow-light-minus10 bg-background-0d8">
       <Link href={"/"}>
         <Image
           title="Home"

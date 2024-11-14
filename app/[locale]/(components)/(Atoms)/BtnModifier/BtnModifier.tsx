@@ -8,7 +8,7 @@ function BtnModifier({ onClick }: { onClick: () => void }) {
     <button
       title={t("modify")}
       onClick={onClick}
-      className="btn-reset-with-bg fixed right-20px top-90px flex-center radius-50p w-40px ratio-1 bg-primary-sat-medium-light hover-transition-40ms-easyin hover-active-scale-115"
+      className="btn-reset-with-bg fixed right-20px top-90px flex-center radius-50p w-60px ratio-1 bg-primary-sat-medium-light shadow-p-sat-very-dark hover-transition-40ms-easyin hover-active-scale-115"
     >
       <IconPencil />
     </button>

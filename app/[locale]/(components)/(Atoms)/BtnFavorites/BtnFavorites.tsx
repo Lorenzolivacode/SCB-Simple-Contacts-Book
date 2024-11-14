@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 import IconStar from "../(Icons-svg)/Icon-star";
+import { useTranslations } from "next-intl";
 
 function BtnFavorites({
   isFavoritesList,
@@ -8,8 +9,10 @@ function BtnFavorites({
   isFavoritesList: boolean;
   setIsFavoritesList: Dispatch<SetStateAction<boolean>>;
 }) {
+  const t = useTranslations("Components");
   return (
     <button
+      title={t("viewFavorites")}
       onClick={() => setIsFavoritesList(!isFavoritesList)}
       className={`${
         isFavoritesList ? "opacity-6 scale-9" : ""

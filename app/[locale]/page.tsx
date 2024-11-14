@@ -9,14 +9,11 @@ import BtnAdd from "./(components)/(Atoms)/BtnAdd/BtnAdd";
 import MainList from "./(components)/(Organisms)/MainList/MainList";
 import InputSearch from "./(components)/(Atoms)/InputSearch-client/InputSearch";
 import { GET, PUT } from "./(function)/api";
-import Toggle from "./(components)/(Atoms)/Toggle/Toggle";
 import BtnSetting from "./(components)/(Atoms)/BtnSetting/BtnSetting";
 import BtnFavorites from "./(components)/(Atoms)/BtnFavorites/BtnFavorites";
-import BtnOption from "./(components)/(Atoms)/BtnOption/BtnOption";
-import IconReverse from "./(components)/(Atoms)/(Icons-svg)/Icon-reverse";
-import IconViewDetails from "./(components)/(Atoms)/(Icons-svg)/Icon-view-details";
 import SettingOptions from "./(components)/(Molecules)/SettingOptions/SettingOptions";
 import { checkCookieBoolean, handleCookieBoolean } from "./(function)/cookie";
+import LoadingComponent from "./(components)/(Molecules)/LoadingComponent/LoadingComponent";
 
 export default function Home() {
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -120,7 +117,7 @@ export default function Home() {
     }
 
     handleSort(sortedContacts);
-  }, [isOrderNameSur, isOrderEmail, isFavoriteList]); //TODO aggiungere nelle dipendenze anche il controllo sul check della visualizzazione dei preferiti
+  }, [isOrderNameSur, isOrderEmail, isFavoriteList, contacts]);
 
   /*TODO const obj ={
     a: [
@@ -164,7 +161,7 @@ export default function Home() {
   //TODO modale di ricerca lettere con link => #lettera titolo
 
   if (error.length > 0 || contacts.length < 1) {
-    if (isLoading) return <h3>Loading...</h3>;
+    if (isLoading) return <LoadingComponent />;
     return (
       <div className="flex-column flex-cross-center m-auto">
         {contacts.length < 1 && <h2>404</h2>}
@@ -173,11 +170,10 @@ export default function Home() {
     );
   }
 
-  const containerLabelBtnClass = "flex-column flex-center gap-4px max-w-60px";
-
   return (
     <>
       <InputSearch onSearchContacts={handleSearchContacts} />
+
       <section className="flex-column gap-8px">
         <div className="flex-center gap-8px w-full max-w-90p">
           <BtnSetting state={isSettingOpen} setState={setIsSettingOpen} />
@@ -202,44 +198,7 @@ export default function Home() {
           setReverse={() => setIsReverseList(!isReverseList)}
         />
       </section>
-      {/*  <section className="settings overflow-hidden flex-center flex-wrap gap-16px radius-4px shadow-inset-p-very-dark border1-s-v-l p-8px w-full bg-primary-dark">
-        <div className={containerLabelBtnClass}>
-          <label className="txt-center f-size-0d7">
-            {t("numberOfContacts")}
-          </label>
-          <p className="w-20px h-20px bg-primary-sat-medium-light p-2px radius-50p f-size-0d7">
-            {numberContacts}
-          </p>
-        </div>
-        <div className={containerLabelBtnClass}>
-          <Toggle active={isOrderNameSur} setActive={setIsOrderNameSur} />
-          <label className="txt-center f-size-0d7">
-            {isOrderNameSur ? t("nameOrdered") : t("surnameOrdered")}
-          </label>
-        </div>
-        <div className={containerLabelBtnClass}>
-          <BtnOption state={isOrderEmail} setState={setIsOrderEmail}>
-            <p className="txt-center l-height-1">@</p>
-          </BtnOption>
-          <label className="txt-center f-size-0d7">{t("emailOrdered")}</label>
-        </div>
-        <div className={containerLabelBtnClass}>
-          <BtnOption state={isVisibleDetails} setState={setIsVisibleDetails}>
-            <IconViewDetails
-              width={16}
-              fill={isVisibleDetails ? "none" : "#ffffff"}
-              stroke="#ffffff"
-            />
-          </BtnOption>
-          <label className="txt-center f-size-0d7">{t("viewDetails")}</label>
-        </div>
-        <div className={containerLabelBtnClass}>
-          <BtnOption state={isReverseList} setState={setIsReverseList}>
-            <IconReverse width={16} fill="#ffffff" />
-          </BtnOption>
-          <label className="txt-center f-size-0d7">{t("reverse")}</label>
-        </div>
-      </section> */}
+
       <BtnAdd />
       <MainList
         onFavorite={handleFavorite}
