@@ -2,7 +2,6 @@ import { Link } from "@/i18n/routing";
 import React from "react";
 import IconPlus from "../(Icons-svg)/Icon-plus";
 import { useTranslations } from "next-intl";
-import { title } from "process";
 
 function BtnAdd() {
   const t = useTranslations("Components");

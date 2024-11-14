@@ -1,6 +1,4 @@
 "use client";
-import Image from "next/image";
-import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 
@@ -33,7 +31,7 @@ export default function Home() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  const t = useTranslations("Home");
+  /* const t = useTranslations("Home"); */
 
   const handleGET = async () => {
     setIsLoading(true);

@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import styles from "./Toggle.module.css";
 
 interface SwitchProps {

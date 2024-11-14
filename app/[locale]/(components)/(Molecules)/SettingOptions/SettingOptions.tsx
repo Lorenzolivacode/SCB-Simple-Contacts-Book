@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import styles from "./SettingOptions.module.css";
 import { useTranslations } from "next-intl";
 import { useTheme } from "@/app/[locale]/(function)/useTheme";
@@ -44,12 +44,6 @@ function SettingOptions({
 
   const { isDarkMode, toggleTheme } = useTheme();
 
-  {
-    /* <p className="txt-center l-height-1">8</p> */
-    {
-      /* <p className="txt-c-white txt-center l-height-1">@</p> */
-    }
-  }
   const options = [
     {
       state: nameState,

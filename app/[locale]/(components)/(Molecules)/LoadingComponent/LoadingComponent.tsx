@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import styles from "./LoadingComponent.module.css";
 import Jumper from "../../(Atoms)/Jumper/Jumper";
 
 function LoadingComponent() {

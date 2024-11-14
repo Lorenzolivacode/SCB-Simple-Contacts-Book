@@ -4,9 +4,8 @@ import React from "react";
 interface BtnProps {
   contact: string;
   label: string;
-  disabled?: boolean;
 }
-function BtnLinkAction({ contact, label, disabled = false }: BtnProps) {
+function BtnLinkAction({ contact, label }: BtnProps) {
   return (
     <Link
       rel="noopener noreferrer"

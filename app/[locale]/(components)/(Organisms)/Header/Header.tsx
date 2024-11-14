@@ -1,7 +1,4 @@
 import React from "react";
-import "./Header.css";
-import InputSearch from "../../(Atoms)/InputSearch-client/InputSearch";
-import LinkFavourites from "../../(Atoms)/LinkFavourites/LinkFavourites";
 import { Link } from "@/i18n/routing";
 import Image from "next/image";
 
@@ -22,8 +19,6 @@ function Header() {
           SCB
         </h1>
       </Link>
-      {/* <InputSearch /> */}
-      {/* <LinkFavourites /> */}
     </header>
   );
 }

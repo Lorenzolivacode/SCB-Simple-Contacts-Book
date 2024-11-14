@@ -37,13 +37,11 @@ function DetailContact({ params }: DetailProps) {
   const router = useRouter();
 
   useEffect(() => {
+    if (id) {
+      handleGET();
+    }
     setIsOrderNameSur(getCookie("isOrderNameSur") === "true");
-  }, []);
-
-  useEffect(() => {
-    console.log("contact: ", contact);
-    /* handlePUT(); */
-  }, [contact]);
+  }, [id]);
 
   const handleGET = async () => {
     setIsLoading(true);
@@ -51,12 +49,6 @@ function DetailContact({ params }: DetailProps) {
     setContact(data);
     setIsLoading(false);
   };
-
-  useEffect(() => {
-    if (id) {
-      handleGET();
-    }
-  }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (contact)

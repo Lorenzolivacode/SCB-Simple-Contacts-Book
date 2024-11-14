@@ -6,9 +6,9 @@ export async function GET() {
   try {
     const contacts = db.prepare("SELECT * FROM contacts").all() as Contact[];
     return NextResponse.json(contacts);
-  } catch (error) {
+  } catch {
     return NextResponse.json(
-      { error: "Errore durante il recupero dei contatti" },
+      { error: "Error while retrieving contacts" },
       { status: 500 }
     );
   }
@@ -27,7 +27,7 @@ export async function GETByID(request: NextRequest) {
 
       if (!contact) {
         return NextResponse.json(
-          { error: "Contatto non trovato" },
+          { error: "Contact not found" },
           { status: 404 }
         );
       }
@@ -38,9 +38,9 @@ export async function GETByID(request: NextRequest) {
       const contacts = db.prepare("SELECT * FROM contacts").all() as Contact[];
       return NextResponse.json(contacts);
     }
-  } catch (error) {
+  } catch {
     return NextResponse.json(
-      { error: "Errore durante il recupero dei contatti" },
+      { error: "Error while retrieving contacts" },
       { status: 500 }
     );
   }
@@ -66,9 +66,9 @@ export async function POST(request: NextRequest) {
     };
 
     return NextResponse.json(newContact, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
-      { error: "Errore durante l'inserimento del contatto" },
+      { error: "Error entering contact" },
       { status: 500 }
     );
   }

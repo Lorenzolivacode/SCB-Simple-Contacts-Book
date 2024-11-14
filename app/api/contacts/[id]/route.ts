@@ -18,7 +18,7 @@ export async function GET(
       );
     }
     return NextResponse.json(contact);
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Errore durante il recupero del contatto" },
       { status: 500 }
@@ -55,7 +55,7 @@ export async function PUT(
     }
 
     return NextResponse.json({ message: "Contatto aggiornato con successo" });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Errore durante l'aggiornamento del contatto" },
       { status: 500 }
@@ -80,7 +80,7 @@ export async function DELETE(
     }
 
     return NextResponse.json({ message: "Contatto eliminato con successo" });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Errore durante l'eliminazione del contatto" },
       { status: 500 }

@@ -1,11 +1,10 @@
 "use client";
 
 import { Contact } from "@/app/(interface)/(types)/contact";
-import React, { useState } from "react";
+import React from "react";
 import IconStar from "../../(Atoms)/(Icons-svg)/Icon-star";
-import IconDetaislList from "../../(Atoms)/(Icons-svg)/Icon-detailsList";
+import IconDetailslList from "../../(Atoms)/(Icons-svg)/Icon-detailsList";
 import { Link } from "@/i18n/routing";
-import { DELETE } from "@/app/[locale]/(function)/api";
 import { useTranslations } from "next-intl";
 
 interface MainListProps {
@@ -80,7 +79,7 @@ function MainList({
               href={`/detail-contact/${contact.id}`}
               className={btnClasses}
             >
-              <IconDetaislList />
+              <IconDetailslList />
             </Link>
           </div>
         </li>

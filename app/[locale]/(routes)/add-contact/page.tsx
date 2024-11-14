@@ -1,5 +1,5 @@
 "use client";
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import Form from "../../(components)/(Molecules)/Form/Form";
 import { Contact } from "@/app/(interface)/(types)/contact";
 import { useRouter } from "@/i18n/routing";
