@@ -58,9 +58,7 @@ function DetailContact({ params }: DetailProps) {
   const handlePUT = async (e?: FormEvent) => {
     if (e) e.preventDefault();
     if (contact) {
-      const data = await PUT({ id: contact.id, contact, error: setError });
-
-      /* handleGET(); */
+      await PUT({ id: contact.id, contact, error: setError });
     }
     setIsModifyOpen(false);
   };
