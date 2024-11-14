@@ -2,8 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/app/lib/db";
 import { Contact } from "@/app/(interface)/(types)/contact";
 
+interface RouteParams {
+  params: { id: string };
+}
+
 // GET - Recupera un singolo contatto tramite ID
-export async function GET(_: NextRequest, context: { params: { id: string } }) {
+export async function GET(_: NextRequest, context: RouteParams) {
   try {
     const contact = db
       .prepare("SELECT * FROM contacts WHERE id = ?")
@@ -22,10 +26,7 @@ export async function GET(_: NextRequest, context: { params: { id: string } }) {
 }
 
 // PUT - Aggiorna un contatto tramite ID
-export async function PUT(
-  request: NextRequest,
-  context: { params: { id: string } }
-) {
+export async function PUT(request: NextRequest, context: RouteParams) {
   try {
     const { firstName, lastName, phone, email, favorite } =
       await request.json();
@@ -57,10 +58,7 @@ export async function PUT(
 }
 
 // DELETE - Elimina un contatto tramite ID
-export async function DELETE(
-  request: NextRequest,
-  context: { params: { id: string } }
-) {
+export async function DELETE(_: NextRequest, context: RouteParams) {
   try {
     const stmt = db.prepare("DELETE FROM contacts WHERE id = ?");
     const info = stmt.run(context.params.id);
