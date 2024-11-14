@@ -1,6 +1,6 @@
 import { Contact } from "@/app/(interface)/(types)/contact";
 export interface IAlphabetContacts {
-  [key: string]: any[];
+  [key: string]: Contact[];
 }
 
 export const generateAlphabetArray = (): string[] => {
@@ -13,65 +13,7 @@ const generatealphabetObject = (): IAlphabetContacts => {
     return acc;
   }, {} as IAlphabetContacts);
 };
-/* const alphabet = [
-  "a",
-  "b",
-  "c",
-  "d",
-  "e",
-  "f",
-  "g",
-  "h",
-  "i",
-  "j",
-  "k",
-  "l",
-  "m",
-  "n",
-  "o",
-  "p",
-  "q",
-  "r",
-  "s",
-  "t",
-  "u",
-  "v",
-  "w",
-  "x",
-  "y",
-  "z",
-]; */
-
 export const getContactsGroupedByFirstLetter = (data: Contact[]) => {
-  /*   const contacts: IAlphabetContacts = {
-    a: [],
-    b: [],
-    c: [],
-    d: [],
-    e: [],
-    f: [],
-    g: [],
-    h: [],
-    i: [],
-    j: [],
-    k: [],
-    l: [],
-    m: [],
-    n: [],
-    o: [],
-    p: [],
-    q: [],
-    r: [],
-    s: [],
-    t: [],
-    u: [],
-    v: [],
-    w: [],
-    x: [],
-    y: [],
-    z: [],
-  }; */
-
   const alphabet = generateAlphabetArray();
   const contacts = generatealphabetObject();
   alphabet.map((letter) => {

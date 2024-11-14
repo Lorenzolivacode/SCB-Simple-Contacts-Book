@@ -35,7 +35,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [dataGroup, setDataGroup] = useState<
-    { [key: string]: any[] } | IAlphabetContacts | null
+    { [key: string]: Contact[] } | IAlphabetContacts | null
   >(null);
 
   /* const t = useTranslations("Home"); */
