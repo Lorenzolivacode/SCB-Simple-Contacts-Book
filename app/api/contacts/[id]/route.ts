@@ -16,6 +16,7 @@ export async function GET(
     }
     return NextResponse.json(contact);
   } catch (error) {
+    console.error("Error while retrieving contacts:", error);
     return NextResponse.json(
       { error: "Error retrieving contact" },
       { status: 500 }
@@ -48,8 +49,9 @@ export async function PUT(
       return NextResponse.json({ error: "Contact not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ message: "Contatto aggiornato con successo" });
+    return NextResponse.json({ message: "Contact updated successfully" });
   } catch (error) {
+    console.error("Error updating contact:", error);
     return NextResponse.json(
       { error: "Error updating contact" },
       { status: 500 }
@@ -70,8 +72,9 @@ export async function DELETE(
       return NextResponse.json({ error: "Contact not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ message: "Contatto eliminato con successo" });
+    return NextResponse.json({ message: "Contact successfully deleted" });
   } catch (error) {
+    console.error("Error deleting contacts:", error);
     return NextResponse.json(
       { error: "Error deleting contact" },
       { status: 500 }

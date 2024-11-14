@@ -12,6 +12,8 @@ import SettingOptions from "./(components)/(Molecules)/SettingOptions/SettingOpt
 import { checkCookieBoolean, handleCookieBoolean } from "./(function)/cookie";
 import LoadingComponent from "./(components)/(Molecules)/LoadingComponent/LoadingComponent";
 
+import getContactsGroupedByFirstLetter from "@/app/[locale]/(function)/handleAlphabet";
+
 export default function Home() {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [orderedContacts, setOrderedContacts] = useState<Contact[]>([]);
@@ -44,6 +46,7 @@ export default function Home() {
     setNumberContacts(data.length);
     setNumberFavorites(favorites.length);
     setIsLoading(false);
+    getContactsGroupedByFirstLetter(data);
     return data;
   };
 
@@ -114,45 +117,6 @@ export default function Home() {
 
     handleSort(sortedContacts);
   }, [isOrderNameSur, isOrderEmail, isFavoriteList, contacts]);
-
-  /*TODO const obj ={
-    a: [
-      {
-        id: 1,
-        firstName: "Alberto",
-        lastName: "Oliva",
-        phone: "3208121031",
-        email: "lore@lore.it",
-        favorite: true,
-      },
-      {
-        id: 2,
-        firstName: "Alessandro",
-        lastName: "Valgua",
-        phone: "3400012345",
-        email: "erick@lore.it",
-        favorite: false,
-      },
-    ],
-    b:[
-      {
-        id: 3,
-        firstName: "Bho",
-        lastName: "Oliva",
-        phone: "3208121031",
-        email: "lore@lore.it",
-        favorite: true,
-      },
-      {
-        id: 4,
-        firstName: "Beppe",
-        lastName: "Valgua",
-        phone: "3400012345",
-        email: "erick@lore.it",
-        favorite: false,
-      },
-    ]
-  } */
 
   //TODO modale di ricerca lettere con link => #lettera titolo
 
