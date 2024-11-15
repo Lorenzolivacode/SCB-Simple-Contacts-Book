@@ -12,7 +12,7 @@ function ModalAlphabet({ onClose }: { onClose: () => void }) {
     >
       <div className="absolute top-0 left-0 w-full h-full bg-primary-very-dark-0d5 backd-blur-5px z-i--1" />{" "}
       {/* backdrop */}
-      <div className="flex-wrap flex-center gap-16px w-full max-w-350px overflow-auto">
+      <div className="flex-wrap flex-center gap-16px w-full max-w-350px txt-c-white overflow-auto">
         {" "}
         {/* grid */}
         {alphabetArray.map((letter) => (
