@@ -33,9 +33,9 @@ function AddContact() {
     }
   };
 
-  const handlePOST = (e: FormEvent) => {
+  const handlePOST = async (e: FormEvent) => {
     e.preventDefault();
-    const post = POST(newContact);
+    const post = await POST(newContact);
     console.log("POST effetuata", post);
     router.replace("/");
   };

@@ -14,7 +14,7 @@ import LoadingComponent from "./(components)/(Molecules)/LoadingComponent/Loadin
 
 import getContactsGroupedByFirstLetter, {
   IAlphabetContacts,
-} from "@/app/[locale]/(function)/handleAlphabet";
+} from "@/app/[locale]/(function)/useAlphabet";
 
 export default function Home() {
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -91,8 +91,12 @@ export default function Home() {
   const handleSearchContacts = (inputSearch: string) => {
     const newList = contacts.filter(
       (contact) =>
-        contact.firstName.toLowerCase().includes(inputSearch.toLowerCase()) ||
-        contact.lastName.toLowerCase().includes(inputSearch.toLowerCase()) ||
+        `${contact.firstName.toLowerCase()} ${contact.lastName.toLowerCase()}`.includes(
+          inputSearch.toLowerCase()
+        ) ||
+        `${contact.lastName.toLowerCase()} ${contact.firstName.toLowerCase()}`.includes(
+          inputSearch.toLowerCase()
+        ) ||
         contact.email.toLowerCase().includes(inputSearch.toLowerCase())
     );
     setOrderedContacts(newList);
