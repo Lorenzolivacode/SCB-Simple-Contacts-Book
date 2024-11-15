@@ -13,16 +13,27 @@ const generatealphabetObject = (): IAlphabetContacts => {
     return acc;
   }, {} as IAlphabetContacts);
 };
-export const getContactsGroupedByFirstLetter = (data: Contact[]) => {
+export const getContactsGroupedByFirstLetter = (
+  data: Contact[],
+  isOrderNameSur: boolean
+) => {
   const alphabet = generateAlphabetArray();
   const contacts = generatealphabetObject();
-  alphabet.map((letter) => {
-    const contactsInLetter = data.filter((contact) => {
-      return contact.firstName.toLowerCase().startsWith(letter);
+  if (isOrderNameSur) {
+    alphabet.map((letter) => {
+      const contactsInLetter = data.filter((contact) => {
+        return contact.firstName.toLowerCase().startsWith(letter);
+      });
+      contacts[letter as keyof IAlphabetContacts] = contactsInLetter;
     });
-    contacts[letter as keyof IAlphabetContacts] = contactsInLetter;
-  });
-  /* console.log("Contacts", contacts); */
+  } else {
+    alphabet.map((letter) => {
+      const contactsInLetter = data.filter((contact) => {
+        return contact.lastName.toLowerCase().startsWith(letter);
+      });
+      contacts[letter as keyof IAlphabetContacts] = contactsInLetter;
+    });
+  }
 
   return contacts;
 };

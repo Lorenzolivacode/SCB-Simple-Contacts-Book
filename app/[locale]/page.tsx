@@ -15,6 +15,7 @@ import LoadingComponent from "./(components)/(Molecules)/LoadingComponent/Loadin
 import getContactsGroupedByFirstLetter, {
   IAlphabetContacts,
 } from "@/app/[locale]/(function)/useAlphabet";
+import ModalAlphabet from "./(components)/(Molecules)/ModalAlphabet/ModalAlphabet";
 
 export default function Home() {
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -34,9 +35,9 @@ export default function Home() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  const [dataGroup, setDataGroup] = useState<
-    { [key: string]: Contact[] } | IAlphabetContacts | null
-  >(null);
+  const [isModalAlphaOpen, setIsModalAlphaOpen] = useState(false);
+
+  const [dataGroup, setDataGroup] = useState<IAlphabetContacts | null>(null);
 
   /* const t = useTranslations("Home"); */
 
@@ -53,7 +54,7 @@ export default function Home() {
     setNumberFavorites(favorites.length);
     setIsLoading(false);
 
-    const objData = getContactsGroupedByFirstLetter(data);
+    const objData = getContactsGroupedByFirstLetter(data, isOrderNameSur);
     setDataGroup(objData);
     return data;
   };
@@ -107,10 +108,6 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    console.log("Data group:", dataGroup);
-  }, [dataGroup]);
-
-  useEffect(() => {
     if (updatedContact) {
       handlePUT(updatedContact);
       setUpdatedContact(null); //Evita loop
@@ -132,12 +129,17 @@ export default function Home() {
     }
 
     handleSort(sortedContacts);
-
-    const objData = getContactsGroupedByFirstLetter(sortedContacts);
-    setDataGroup(objData);
   }, [isOrderNameSur, isOrderEmail, isFavoriteList, contacts]);
 
-  //TODO modale di ricerca lettere con link => #lettera titolo
+  useEffect(() => {
+    const tempOrderedContacts = [...contacts];
+
+    const objData = getContactsGroupedByFirstLetter(
+      tempOrderedContacts,
+      isOrderNameSur
+    );
+    setDataGroup(objData);
+  }, [orderedContacts]);
 
   if (error.length > 0 || contacts.length < 1) {
     if (isLoading) return <LoadingComponent />;
@@ -153,6 +155,9 @@ export default function Home() {
     <>
       <InputSearch onSearchContacts={handleSearchContacts} />
 
+      {isModalAlphaOpen && (
+        <ModalAlphabet onClose={() => setIsModalAlphaOpen(false)} />
+      )}
       <section className="flex-column gap-8px">
         <div className="flex-center gap-8px w-full max-w-90p">
           <BtnSetting state={isSettingOpen} setState={setIsSettingOpen} />
@@ -181,11 +186,12 @@ export default function Home() {
       <BtnAdd />
       <MainList
         onFavorite={handleFavorite}
-        list={orderedContacts}
-        /* list={dataGroup} */
+        /* list={orderedContacts} */
+        list={dataGroup}
         isOrderNameSur={isOrderNameSur}
         isVisibleDetail={isVisibleDetails}
         isReverseList={isReverseList}
+        setModal={() => setIsModalAlphaOpen(true)}
       />
     </>
   );

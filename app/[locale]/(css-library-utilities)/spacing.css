@@ -46,6 +46,10 @@
   margin-bottom: 20px;
 }
 
+.mb-8px {
+  margin-bottom: 8px;
+}
+
 /* PADDING */
 .p-2px {
   padding: 2px;

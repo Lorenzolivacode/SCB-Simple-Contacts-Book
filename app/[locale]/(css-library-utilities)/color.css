@@ -97,6 +97,10 @@
   color: var(--color-primary-medium);
 }
 
+.txt-c-primary-sat-medium-light {
+  color: var(--color-primary-saturated-medium-light);
+}
+
 .txt-c-primary-very-light {
   color: var(--color-primary-very-light);
 }

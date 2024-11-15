@@ -1,0 +1,13 @@
+.grid {
+  display: grid;
+}
+
+.grid-t-columns-line-auto-minmax-40px {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+}
+
+.grid-t-columns-repeat-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
