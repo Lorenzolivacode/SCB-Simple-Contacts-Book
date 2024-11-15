@@ -72,9 +72,9 @@ export async function PUT(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
-  const { id } = params;
+  const { id } = context.params; // Estrai l'ID da params
 
   // Verifica che l'ID sia presente
   if (!id) {
