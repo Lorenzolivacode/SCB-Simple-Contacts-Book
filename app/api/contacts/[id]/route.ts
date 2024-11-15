@@ -71,10 +71,10 @@ export async function PUT(
 }
 
 export async function DELETE(
-  req: Request,
-  context: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = context.params; // Estrai l'ID da params
+  const { id } = await params;
 
   // Verifica che l'ID sia presente
   if (!id) {
