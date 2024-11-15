@@ -13,17 +13,22 @@ import {
 
 interface MainListProps {
   list: IAlphabetContacts | null;
-  /* list: Contact[]; */
+  listOrdered: Contact[];
   onFavorite: (contact: Contact) => void;
   isOrderNameSur: boolean;
+  isFavorite: boolean;
+  isOrderEmail: boolean;
   isVisibleDetail: boolean;
   isReverseList: boolean;
   setModal: () => void;
 }
 function MainList({
   list,
+  listOrdered,
   onFavorite,
   isOrderNameSur,
+  isFavorite,
+  isOrderEmail,
   isVisibleDetail,
   isReverseList,
   setModal,
@@ -36,8 +41,74 @@ function MainList({
   const btnClasses =
     "reset-default hover-transition-40ms-easyin hover-active-scale-115 pointer";
 
+  if (isFavorite || isOrderEmail) {
+    return (
+      <ul
+        className={`${
+          !isReverseList ? "flex-column" : "flex-column-reverse"
+        } gap-20px w-full`}
+      >
+        {listOrdered.map((contact) => (
+          <li key={contact.id} className="flex-between border-b-1-s-l p-4px">
+            <div className="grow-1 mr-4px overflow-hidden">
+              <div className="flex-column gap-16px ">
+                <h4 title={`${contact.firstName} ${contact.lastName}`}>
+                  {isOrderNameSur
+                    ? `${contact.firstName} ${contact.lastName}`
+                    : `${contact.lastName} ${contact.firstName}`}
+                </h4>
+                {isVisibleDetail && (
+                  <div className="flex-wrap gap-8px f-size-0d8">
+                    <div
+                      title={t("email")}
+                      className="flex-column overflow-hidden"
+                    >
+                      <strong>{t("email")}</strong>
+                      <p>{contact.email}</p>
+                    </div>
+                    <div
+                      title={t("phone")}
+                      className="flex-column overflow-hidden"
+                    >
+                      <strong>{t("phone")}</strong>
+                      <p>{contact.phone}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="flex-center gap-10px">
+              <button
+                title={
+                  contact.favorite > 0
+                    ? tComp("removeFavorites")
+                    : tComp("addFavorites")
+                }
+                onClick={() => onFavorite(contact)}
+                className={btnClasses}
+              >
+                <IconStar fill={contact.favorite > 0 ? "#ffd46b" : "none"} />
+              </button>
+              <Link
+                title={tComp("goDetails")}
+                href={`/detail-contact/${contact.id}`}
+                className={btnClasses}
+              >
+                <IconDetailslList />
+              </Link>
+            </div>
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
   return (
-    <ul className="flex-column gap-8px">
+    <ul
+      className={`${
+        !isReverseList ? "flex-column" : "flex-column-reverse"
+      } gap-8px w-full`}
+    >
       {alphabetArray.map((letter, i) => (
         <React.Fragment key={`${letter}-${i}`}>
           <li

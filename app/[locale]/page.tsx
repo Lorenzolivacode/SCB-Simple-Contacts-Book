@@ -185,8 +185,10 @@ export default function Home() {
 
       <BtnAdd />
       <MainList
+        isFavorite={isFavoriteList}
+        isOrderEmail={isOrderEmail}
         onFavorite={handleFavorite}
-        /* list={orderedContacts} */
+        listOrdered={orderedContacts}
         list={dataGroup}
         isOrderNameSur={isOrderNameSur}
         isVisibleDetail={isVisibleDetails}
