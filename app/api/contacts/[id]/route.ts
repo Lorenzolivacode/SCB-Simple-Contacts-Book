@@ -1,81 +1,102 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/app/lib/db";
-import { Contact } from "@/app/(interface)/(types)/contact";
+import { supabase } from "@/app/lib/supabaseClient"; // Importa il client Supabase
 
-// GET - Recupera un singolo contatto tramite ID
+// Funzione GET per ottenere un contatto tramite ID
 export async function GET(
   _: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
-    const contact = db
-      .prepare("SELECT * FROM contacts WHERE id = ?")
-      .get(id) as Contact;
-    if (!contact) {
-      return NextResponse.json({ error: "Contact not found" }, { status: 404 });
+
+    // Query per ottenere un contatto specifico tramite l'ID
+    const { data, error } = await supabase
+      .from("contacts")
+      .select("*")
+      .eq("id", id)
+      .single(); // Restituisce un solo record
+
+    if (error || !data) {
+      return NextResponse.json(
+        { error: "Contatto non trovato" },
+        { status: 404 }
+      );
     }
-    return NextResponse.json(contact);
+
+    return NextResponse.json(data);
   } catch (error) {
-    console.error("Error while retrieving contacts:", error);
+    console.error("Errore durante il recupero del contatto:", error);
     return NextResponse.json(
-      { error: "Error retrieving contact" },
+      { error: "Errore durante il recupero del contatto" },
       { status: 500 }
     );
   }
 }
 
-// PUT - Aggiorna un contatto tramite ID
+// Funzione PUT per aggiornare un contatto tramite ID
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
-
     const { firstName, lastName, phone, email, favorite } =
       await request.json();
 
-    const stmt = db.prepare(
-      "UPDATE contacts SET firstName = ?, lastName = ?, phone = ?, email = ?, favorite = ? WHERE id = ?"
-    );
-    const info = stmt.run(firstName, lastName, phone, email, favorite, id);
+    // Query per aggiornare un contatto tramite ID
+    const { data, error } = await supabase
+      .from("contacts")
+      .update({ firstName, lastName, phone, email, favorite })
+      .eq("id", id)
+      .single(); // Restituisce un singolo record aggiornato
 
-    if (info.changes === 0) {
-      return NextResponse.json({ error: "Contact not found" }, { status: 404 });
+    if (error) {
+      return NextResponse.json(
+        { error: "Contatto non trovato" },
+        { status: 404 }
+      );
     }
 
-    return NextResponse.json({ message: "Contact updated successfully" });
+    return NextResponse.json({
+      message: "Contatto aggiornato con successo",
+      data,
+    });
   } catch (error) {
-    console.error("Error updating contact:", error);
+    console.error("Errore durante l'aggiornamento del contatto:", error);
     return NextResponse.json(
-      { error: "Error updating contact" },
+      { error: "Errore durante l'aggiornamento del contatto" },
       { status: 500 }
     );
   }
 }
 
-// DELETE - Elimina un contatto tramite ID
 export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  req: Request,
+  { params }: { params: { id: string } }
 ) {
+  const { id } = params;
+
+  // Verifica che l'ID sia presente
+  if (!id) {
+    return NextResponse.json({ error: "ID is required" }, { status: 400 });
+  }
+
   try {
-    const { id } = await params;
+    // Elimina il contatto con Supabase
+    const { error } = await supabase.from("contacts").delete().eq("id", id);
 
-    const stmt = db.prepare("DELETE FROM contacts WHERE id = ?");
-    const info = stmt.run(id);
-
-    if (info.changes === 0) {
-      return NextResponse.json({ error: "Contact not found" }, { status: 404 });
+    // Gestisci eventuali errori di Supabase
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ message: "Contact successfully deleted" });
-  } catch (error) {
-    console.error("Error deleting contacts:", error);
+    // Risposta di successo
     return NextResponse.json(
-      { error: "Error deleting contact" },
-      { status: 500 }
+      { message: "Contact deleted successfully" },
+      { status: 200 }
     );
+  } catch (err) {
+    // Gestione degli errori generici
+    return NextResponse.json({ error: "An error occurred" }, { status: 500 });
   }
 }

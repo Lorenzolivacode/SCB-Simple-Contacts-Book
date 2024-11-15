@@ -1,8 +1,9 @@
 "use client";
+
 import React, { FormEvent, useState } from "react";
 import Form from "../../(components)/(Molecules)/Form/Form";
-import { Contact } from "@/app/(interface)/(types)/contact";
 import { useRouter } from "@/i18n/routing";
+import { POST } from "../../(function)/api";
 
 function AddContact() {
   const [newContact, setNewContact] = useState({
@@ -19,24 +20,13 @@ function AddContact() {
     setNewContact({ ...newContact, [event.target.name]: event.target.value });
   };
 
-  const POST = async (contact: Omit<Contact, "id">) => {
-    try {
-      const res = await fetch("/api/contacts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(contact),
-      });
-      const newContact = await res.json();
-      console.log("Nuovo contatto aggiunto:", newContact);
-    } catch (error) {
-      console.error("Errore durante l'aggiunta del contatto:", error);
-    }
-  };
-
   const handlePOST = async (e: FormEvent) => {
     e.preventDefault();
-    const post = await POST(newContact);
-    console.log("POST effetuata", post);
+
+    const post = await POST({
+      contact: newContact, // Passi il contatto
+      error: (msg: string) => console.error(msg), // Passi una funzione per la gestione degli errori
+    });
     router.replace("/");
   };
   return (

@@ -1,44 +1,72 @@
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/app/lib/db";
-import { Contact } from "@/app/(interface)/(types)/contact";
+// app/api/contacts/routes.ts
 
+import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/app/lib/supabaseClient"; // Importa il client Supabase
+
+// Funzione GET per ottenere tutti i contatti
 export async function GET() {
   try {
-    const contacts = db.prepare("SELECT * FROM contacts").all() as Contact[];
-    return NextResponse.json(contacts);
+    // Query per ottenere tutti i contatti dalla tabella 'contacts'
+    const { data, error } = await supabase.from("contacts").select("*");
+
+    if (error) {
+      throw error;
+    }
+
+    return NextResponse.json(data);
   } catch (error) {
-    console.error("Error while retrieving contacts:", error);
+    console.error("Errore durante il recupero dei contatti:", error);
     return NextResponse.json(
-      { error: "Error while retrieving contacts" },
+      { error: "Errore durante il recupero dei contatti" },
       { status: 500 }
     );
   }
 }
 
-export async function POST(request: NextRequest) {
+// Funzione per la gestione delle richieste POST
+export async function POST(req: Request) {
   try {
-    const { firstName, lastName, phone, email, favorite } =
-      await request.json();
-    const stmt = db.prepare(
-      `INSERT INTO contacts (firstName, lastName, phone, email, favorite)
-       VALUES (?, ?, ?, ?, ?)`
-    );
-    const info = stmt.run(firstName, lastName, phone, email, favorite);
+    const contact = await req.json();
 
-    const newContact: Contact = {
-      id: info.lastInsertRowid as number,
-      firstName,
-      lastName,
-      phone,
-      email,
-      favorite,
-    };
+    // Verifica che i campi principali siano presenti
+    if (
+      !contact.firstName ||
+      !contact.lastName ||
+      !contact.phone ||
+      !contact.email
+    ) {
+      return new Response(JSON.stringify({ error: "Dati mancanti" }), {
+        status: 400,
+      });
+    }
 
-    return NextResponse.json(newContact, { status: 201 });
-  } catch (error) {
-    console.error("Error adding contact:", error);
-    return NextResponse.json(
-      { error: "Error entering contact" },
+    // Inserisci il contatto nel database usando Supabase
+    const { data, error } = await supabase
+      .from("contacts") // Assicurati che il nome della tabella sia corretto
+      .insert([
+        {
+          firstName: contact.firstName,
+          lastName: contact.lastName,
+          phone: contact.phone,
+          email: contact.email,
+          favorite: contact.favorite || 0, // Impostiamo il valore di default se non presente
+        },
+      ])
+      .select(); // Aggiunto .select() per restituire i dati inseriti;
+
+    // Se c'è un errore nell'inserimento, rispondi con un errore
+    if (error) {
+      return new Response(JSON.stringify({ error: error.message }), {
+        status: 400,
+      });
+    }
+
+    // Rispondi con i dati inseriti
+    return new Response(JSON.stringify(data), { status: 201 });
+  } catch (err) {
+    console.error(err);
+    return new Response(
+      JSON.stringify({ error: "Errore durante l'aggiunta del contatto" }),
       { status: 500 }
     );
   }

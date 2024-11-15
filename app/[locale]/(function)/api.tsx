@@ -22,6 +22,35 @@ export async function GET({ id = 0, error }: ApiProps) {
   }
 }
 
+interface POSTProps {
+  contact: Omit<Contact, "id">; // Usa Omit per rimuovere 'id' dal tipo
+  error: (text: string) => void;
+}
+
+export async function POST({ contact, error }: POSTProps) {
+  try {
+    const res = await fetch("/api/contacts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(contact),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to add contact");
+    }
+
+    const data = await res.json();
+    return data; // Ritorna i dati della risposta
+  } catch (err) {
+    if (typeof err === "string") {
+      error(err);
+    } else {
+      error("An error occurred while adding the contact");
+    }
+    return null; // Ritorna null in caso di errore
+  }
+}
+
 export async function PUT({ id, contact, error }: ApiProps) {
   try {
     const res = await fetch(`/api/contacts/${id}`, {

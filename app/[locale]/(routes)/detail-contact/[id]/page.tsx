@@ -134,7 +134,7 @@ function DetailContact({ params }: DetailProps) {
       </div>
       <button
         title={t("delete")}
-        className="btn-reset-with-bg fixed top-90px right-120px flex-center radius-50p w-60px ratio-1 bg-primary-sat-medium-light shadow-p-sat-very-dark hover-transition-40ms-easyin hover-active-scale-115"
+        className="btn-reset-with-bg fixed top-90px right-120px flex-center radius-50p w-60px ratio-1 bg-primary-sat-medium-light shadow-p-sat-very-dark hover-transition-40ms-easyin hover-active-scale-115 pointer"
         onClick={handleDELETE}
       >
         <IconDelete width={30} stroke="#ffffff" />
