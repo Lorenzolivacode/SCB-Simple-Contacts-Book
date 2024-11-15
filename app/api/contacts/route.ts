@@ -1,6 +1,6 @@
 // app/api/contacts/routes.ts
 
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { supabase } from "@/app/lib/supabaseClient"; // Importa il client Supabase
 
 // Funzione GET per ottenere tutti i contatti

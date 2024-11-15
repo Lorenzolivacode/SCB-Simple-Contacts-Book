@@ -23,7 +23,7 @@ function AddContact() {
   const handlePOST = async (e: FormEvent) => {
     e.preventDefault();
 
-    const post = await POST({
+    await POST({
       contact: newContact, // Passi il contatto
       error: (msg: string) => console.error(msg), // Passi una funzione per la gestione degli errori
     });

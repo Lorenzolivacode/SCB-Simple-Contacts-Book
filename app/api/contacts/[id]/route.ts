@@ -96,6 +96,8 @@ export async function DELETE(
       { status: 200 }
     );
   } catch (err) {
+    console.error("Error: ", err);
+
     // Gestione degli errori generici
     return NextResponse.json({ error: "An error occurred" }, { status: 500 });
   }
