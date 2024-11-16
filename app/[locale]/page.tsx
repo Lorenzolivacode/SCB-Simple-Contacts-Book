@@ -28,6 +28,7 @@ export default function Home() {
   const [isOrderEmail, setIsOrderEmail] = useState(false);
   const [isVisibleDetails, setIsVisibleDetails] = useState(false);
   const [isReverseList, setIsReverseList] = useState(false);
+  const [isInSearch, setIsInSearch] = useState(false);
 
   const [updatedContact, setUpdatedContact] = useState<Contact | null>(null);
   const [isFavoriteList, setIsFavoriteList] = useState(false);
@@ -101,6 +102,7 @@ export default function Home() {
         contact.email.toLowerCase().includes(inputSearch.toLowerCase())
     );
     setOrderedContacts(newList);
+    inputSearch.length > 0 ? setIsInSearch(true) : setIsInSearch(false);
   };
 
   useEffect(() => {
@@ -193,6 +195,7 @@ export default function Home() {
         isOrderNameSur={isOrderNameSur}
         isVisibleDetail={isVisibleDetails}
         isReverseList={isReverseList}
+        isInSearch={isInSearch}
         setModal={() => setIsModalAlphaOpen(true)}
       />
     </>

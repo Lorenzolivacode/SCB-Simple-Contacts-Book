@@ -20,6 +20,7 @@ interface MainListProps {
   isOrderEmail: boolean;
   isVisibleDetail: boolean;
   isReverseList: boolean;
+  isInSearch: boolean;
   setModal: () => void;
 }
 function MainList({
@@ -31,6 +32,7 @@ function MainList({
   isOrderEmail,
   isVisibleDetail,
   isReverseList,
+  isInSearch,
   setModal,
 }: MainListProps) {
   const t = useTranslations("ContactForm");
@@ -41,7 +43,7 @@ function MainList({
   const btnClasses =
     "reset-default hover-transition-40ms-easyin hover-active-scale-115 pointer";
 
-  if (isFavorite || isOrderEmail) {
+  if (isFavorite || isOrderEmail || isInSearch) {
     return (
       <ul
         className={`${
