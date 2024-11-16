@@ -102,7 +102,12 @@ export default function Home() {
         contact.email.toLowerCase().includes(inputSearch.toLowerCase())
     );
     setOrderedContacts(newList);
-    inputSearch.length > 0 ? setIsInSearch(true) : setIsInSearch(false);
+
+    if (inputSearch.length > 0) {
+      setIsInSearch(true);
+    } else {
+      setIsInSearch(false);
+    }
   };
 
   useEffect(() => {
