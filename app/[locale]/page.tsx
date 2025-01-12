@@ -16,6 +16,8 @@ import getContactsGroupedByFirstLetter, {
   IAlphabetContacts,
 } from "@/app/[locale]/(function)/useAlphabet";
 import ModalAlphabet from "./(components)/(Molecules)/ModalAlphabet/ModalAlphabet";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../lib/firebase/config";
 
 export default function Home() {
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -44,19 +46,22 @@ export default function Home() {
 
   const handleGET = async () => {
     setIsLoading(true);
+
     const data = await GET({ error: setError });
 
-    const copyData = [...data];
-    const favorites = copyData.filter((c) => c.favorite === 1);
+    /* const copyData = [...data]; */
 
-    setContacts(data);
-    handleSort(data);
-    setNumberContacts(data.length);
-    setNumberFavorites(favorites.length);
-    setIsLoading(false);
+    if (data && Array.isArray(data)) {
+      const favorites = data.filter((c) => c.favorite === 1);
+      setContacts(data);
+      handleSort(data);
+      setNumberContacts(data.length);
+      setNumberFavorites(favorites.length);
+      setIsLoading(false);
 
-    const objData = getContactsGroupedByFirstLetter(data, isOrderNameSur);
-    setDataGroup(objData);
+      const objData = getContactsGroupedByFirstLetter(data, isOrderNameSur);
+      setDataGroup(objData);
+    }
     return data;
   };
 
@@ -148,6 +153,13 @@ export default function Home() {
     setDataGroup(objData);
   }, [orderedContacts]);
 
+  const handleNewDB = () => {
+    contacts.map(async (contact) => {
+      const docRef = await addDoc(collection(db, "contacts"), contact);
+      console.log("inserito", docRef.id);
+    });
+  };
+
   if (error.length > 0 || contacts.length < 1) {
     if (isLoading) return <LoadingComponent />;
     return (
@@ -165,6 +177,9 @@ export default function Home() {
       {isModalAlphaOpen && (
         <ModalAlphabet onClose={() => setIsModalAlphaOpen(false)} />
       )}
+      <button onClick={handleNewDB} className="m-auto">
+        click
+      </button>
       <section className="flex-column gap-8px">
         <div className="flex-center gap-8px w-full max-w-90p">
           <BtnSetting state={isSettingOpen} setState={setIsSettingOpen} />

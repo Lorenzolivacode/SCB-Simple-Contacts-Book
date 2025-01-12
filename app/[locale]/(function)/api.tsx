@@ -1,20 +1,60 @@
 import { Contact } from "@/app/(interface)/(types)/contact";
+import { db } from "@/app/lib/firebase/config";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
 
 interface ApiProps {
-  id?: number;
+  id?: string;
   contact?: Contact;
   error: (text: string) => void;
 }
 
-export async function GET({ id = 0, error }: ApiProps) {
-  try {
-    const res = await fetch(`/api/contacts/${id === 0 ? "" : id}`);
+const docRef = (id: string) => doc(db, "contacts", id);
+const collectionRef = collection(db, "contacts");
 
-    if (!res.ok) {
-      throw new Error("Failed to get contact");
+export async function GET({ id = "", error }: ApiProps) {
+  try {
+    if (!id) {
+      const res = await getDocs(collectionRef);
+      const contacts = res.docs.map((contact) => {
+        const data = contact.data();
+        return {
+          id: contact.id,
+          firstName: data.firstName as string,
+          lastName: data.lastName as string,
+          phone: data.phone as string,
+          favorite: data.favorite as number,
+          email: data.email as string,
+        };
+      });
+      if (contacts === undefined) {
+        throw new Error("Failed to get contacts");
+      }
+      return contacts;
+    } else {
+      const res = await getDoc(docRef(id));
+
+      if (!res.exists()) {
+        throw new Error("Failed to get contact");
+      }
+      const data = res.data();
+
+      return {
+        id: res.id,
+        firstName: data.firstName as string,
+        lastName: data.lastName as string,
+        phone: data.phone as string,
+        favorite: data.favorite as number,
+        email: data.email as string,
+      };
     }
-    const data = await res.json();
-    return data;
   } catch (err) {
     if (typeof err === "string") error(err);
 
@@ -29,18 +69,9 @@ interface POSTProps {
 
 export async function POST({ contact, error }: POSTProps) {
   try {
-    const res = await fetch("/api/contacts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(contact),
-    });
+    const res = await addDoc(collectionRef, contact);
 
-    if (!res.ok) {
-      throw new Error("Failed to add contact");
-    }
-
-    const data = await res.json();
-    return data; // Ritorna i dati della risposta
+    return res.id; // Ritorna id del contatto aggiunto
   } catch (err) {
     if (typeof err === "string") {
       error(err);
@@ -53,17 +84,13 @@ export async function POST({ contact, error }: POSTProps) {
 
 export async function PUT({ id, contact, error }: ApiProps) {
   try {
-    const res = await fetch(`/api/contacts/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(contact),
-    });
-    if (!res.ok) {
-      throw new Error("Failed to update contact");
+    if (!id) {
+      throw new Error("Invalid id");
     }
 
-    const message = await res.json();
-    return message;
+    await setDoc(docRef(id), contact);
+
+    return "Contact updated successfully!";
   } catch (err) {
     if (typeof err === "string") error(err);
 
@@ -73,16 +100,9 @@ export async function PUT({ id, contact, error }: ApiProps) {
 
 export async function DELETE({ id, error }: ApiProps) {
   try {
-    const res = await fetch(`/api/contacts/${id}`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-    });
-    if (!res.ok) {
-      throw new Error("Failed to delete contact");
+    if (id) {
+      await deleteDoc(docRef(id));
     }
-
-    const message = await res.json();
-    return message;
   } catch (err) {
     if (typeof err === "string") error(err);
 

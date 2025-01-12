@@ -15,7 +15,7 @@ import { getCookie } from "@/app/[locale]/(function)/cookie";
 import LoadingComponent from "@/app/[locale]/(components)/(Molecules)/LoadingComponent/LoadingComponent";
 
 interface DetailProps {
-  params: Promise<{ id: number | string }>;
+  params: Promise<{ id: string }>;
 }
 function DetailContact({ params }: DetailProps) {
   const tForm = useTranslations("ContactForm");
@@ -33,7 +33,8 @@ function DetailContact({ params }: DetailProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   const unwrappedParams = use(params);
-  const id = Number(unwrappedParams.id);
+  const id = unwrappedParams.id;
+  /* const id = Number(unwrappedParams.id); */
   const router = useRouter();
 
   useEffect(() => {
@@ -46,6 +47,9 @@ function DetailContact({ params }: DetailProps) {
   const handleGET = async () => {
     setIsLoading(true);
     const data = await GET({ id: id, error: setError });
+    if (!data || Array.isArray(data)) {
+      return;
+    }
     setContact(data);
     setIsLoading(false);
   };
@@ -57,7 +61,7 @@ function DetailContact({ params }: DetailProps) {
 
   const handlePUT = async (e?: FormEvent) => {
     if (e) e.preventDefault();
-    if (contact) {
+    if (contact && contact.id) {
       await PUT({ id: contact.id, contact, error: setError });
     }
     setIsModifyOpen(false);
