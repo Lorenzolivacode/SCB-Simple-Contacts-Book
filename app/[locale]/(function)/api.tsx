@@ -8,6 +8,7 @@ import {
   getDoc,
   getDocs,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 interface ApiProps {
@@ -89,6 +90,32 @@ export async function PUT({ id, contact, error }: ApiProps) {
     }
 
     await setDoc(docRef(id), contact);
+
+    return "Contact updated successfully!";
+  } catch (err) {
+    if (typeof err === "string") error(err);
+
+    error("Failed to update contact");
+  }
+}
+
+interface PATCHProps {
+  id: string;
+  error: (text: string) => void;
+  paramsUpdate: Record<string, string | number>;
+  /* Con Record<string, string | number>, si definisce un oggetto che accetta:
+  un numero arbitrario di chiavi di tipo string,
+  i cui valori possono essere string o 0 o 1. */
+}
+
+export async function PATCH({ id, error, paramsUpdate }: PATCHProps) {
+  try {
+    if (!id) {
+      throw new Error("Invalid id");
+    }
+
+    await updateDoc(docRef(id), paramsUpdate);
+    console.log("params: ", paramsUpdate);
 
     return "Contact updated successfully!";
   } catch (err) {

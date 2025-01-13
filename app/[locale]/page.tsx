@@ -5,7 +5,7 @@ import { Contact } from "../(interface)/(types)/contact";
 import BtnAdd from "./(components)/(Atoms)/BtnAdd/BtnAdd";
 import MainList from "./(components)/(Organisms)/MainList/MainList";
 import InputSearch from "./(components)/(Atoms)/InputSearch-client/InputSearch";
-import { GET, PUT } from "./(function)/api";
+import { GET, PATCH } from "./(function)/api";
 import BtnSetting from "./(components)/(Atoms)/BtnSetting/BtnSetting";
 import BtnFavorites from "./(components)/(Atoms)/BtnFavorites/BtnFavorites";
 import SettingOptions from "./(components)/(Molecules)/SettingOptions/SettingOptions";
@@ -65,8 +65,19 @@ export default function Home() {
     return data;
   };
 
-  const handlePUT = async (contact: Contact) => {
-    await PUT({ id: contact.id, contact, error: setError });
+  const handlePATCH = async (updatedContact: Contact) => {
+    //await PUT({ id: contact.id, contact, error: setError });
+
+    console.log("isFavorite: ", updatedContact.favorite);
+
+    /*     console.log("Current favorite:", contact.favorite);
+    console.log("Calculated isFavorite:", isFavorite); */
+
+    await PATCH({
+      id: updatedContact.id,
+      error: setError,
+      paramsUpdate: { favorite: updatedContact.favorite },
+    });
   };
 
   const handleSort = (data: Contact[]) => {
@@ -121,7 +132,7 @@ export default function Home() {
 
   useEffect(() => {
     if (updatedContact) {
-      handlePUT(updatedContact);
+      handlePATCH(updatedContact);
       setUpdatedContact(null); //Evita loop
     } else {
       (async () => {
