@@ -8,14 +8,14 @@ import BtnModifier from "@/app/[locale]/(components)/(Atoms)/BtnModifier/BtnModi
 import { useTranslations } from "next-intl";
 import Form from "@/app/[locale]/(components)/(Molecules)/Form/Form";
 import BtnLinkAction from "@/app/[locale]/(components)/(Atoms)/BtnLinkAction/BtnLinkAction";
-import { DELETE, GET, PUT } from "@/app/[locale]/(function)/api";
+import { DELETE, GET, PATCH, PUT } from "@/app/[locale]/(function)/api";
 import { useRouter } from "@/i18n/routing";
 import IconDelete from "@/app/[locale]/(components)/(Atoms)/(Icons-svg)/Icon-delete";
 import { getCookie } from "@/app/[locale]/(function)/cookie";
 import LoadingComponent from "@/app/[locale]/(components)/(Molecules)/LoadingComponent/LoadingComponent";
 
 interface DetailProps {
-  params: Promise<{ id: number | string }>;
+  params: Promise<{ id: string }>;
 }
 function DetailContact({ params }: DetailProps) {
   const tForm = useTranslations("ContactForm");
@@ -33,7 +33,8 @@ function DetailContact({ params }: DetailProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   const unwrappedParams = use(params);
-  const id = Number(unwrappedParams.id);
+  const id = unwrappedParams.id;
+  /* const id = Number(unwrappedParams.id); */
   const router = useRouter();
 
   useEffect(() => {
@@ -46,6 +47,9 @@ function DetailContact({ params }: DetailProps) {
   const handleGET = async () => {
     setIsLoading(true);
     const data = await GET({ id: id, error: setError });
+    if (!data || Array.isArray(data)) {
+      return;
+    }
     setContact(data);
     setIsLoading(false);
   };
@@ -57,10 +61,20 @@ function DetailContact({ params }: DetailProps) {
 
   const handlePUT = async (e?: FormEvent) => {
     if (e) e.preventDefault();
-    if (contact) {
+    if (contact && contact.id) {
       await PUT({ id: contact.id, contact, error: setError });
     }
     setIsModifyOpen(false);
+  };
+
+  const handlePATCH = async () => {
+    if (contact && contact.id) {
+      await PATCH({
+        id: contact.id,
+        error: setError,
+        paramsUpdate: { favorite: contact.favorite },
+      });
+    }
   };
 
   const handleDELETE = async () => {
@@ -86,7 +100,8 @@ function DetailContact({ params }: DetailProps) {
   };
 
   useEffect(() => {
-    handlePUT();
+    /* handlePUT(); */
+    handlePATCH();
   }, [checkFavorite]);
 
   useEffect(() => {}, [contact]);
