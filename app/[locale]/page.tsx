@@ -16,8 +16,6 @@ import getContactsGroupedByFirstLetter, {
   IAlphabetContacts,
 } from "@/app/[locale]/(function)/useAlphabet";
 import ModalAlphabet from "./(components)/(Molecules)/ModalAlphabet/ModalAlphabet";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "../lib/firebase/config";
 
 export default function Home() {
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -164,13 +162,6 @@ export default function Home() {
     setDataGroup(objData);
   }, [orderedContacts]);
 
-  const handleNewDB = () => {
-    contacts.map(async (contact) => {
-      const docRef = await addDoc(collection(db, "contacts"), contact);
-      console.log("inserito", docRef.id);
-    });
-  };
-
   if (error.length > 0 || contacts.length < 1) {
     if (isLoading) return <LoadingComponent />;
     return (
@@ -188,9 +179,6 @@ export default function Home() {
       {isModalAlphaOpen && (
         <ModalAlphabet onClose={() => setIsModalAlphaOpen(false)} />
       )}
-      <button onClick={handleNewDB} className="m-auto">
-        click
-      </button>
       <section className="flex-column gap-8px">
         <div className="flex-center gap-8px w-full max-w-90p">
           <BtnSetting state={isSettingOpen} setState={setIsSettingOpen} />

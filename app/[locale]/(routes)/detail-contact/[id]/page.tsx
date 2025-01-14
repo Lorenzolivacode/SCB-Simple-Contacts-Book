@@ -8,7 +8,7 @@ import BtnModifier from "@/app/[locale]/(components)/(Atoms)/BtnModifier/BtnModi
 import { useTranslations } from "next-intl";
 import Form from "@/app/[locale]/(components)/(Molecules)/Form/Form";
 import BtnLinkAction from "@/app/[locale]/(components)/(Atoms)/BtnLinkAction/BtnLinkAction";
-import { DELETE, GET, PUT } from "@/app/[locale]/(function)/api";
+import { DELETE, GET, PATCH, PUT } from "@/app/[locale]/(function)/api";
 import { useRouter } from "@/i18n/routing";
 import IconDelete from "@/app/[locale]/(components)/(Atoms)/(Icons-svg)/Icon-delete";
 import { getCookie } from "@/app/[locale]/(function)/cookie";
@@ -67,6 +67,16 @@ function DetailContact({ params }: DetailProps) {
     setIsModifyOpen(false);
   };
 
+  const handlePATCH = async () => {
+    if (contact && contact.id) {
+      await PATCH({
+        id: contact.id,
+        error: setError,
+        paramsUpdate: { favorite: contact.favorite },
+      });
+    }
+  };
+
   const handleDELETE = async () => {
     if (contact) {
       try {
@@ -90,7 +100,8 @@ function DetailContact({ params }: DetailProps) {
   };
 
   useEffect(() => {
-    handlePUT();
+    /* handlePUT(); */
+    handlePATCH();
   }, [checkFavorite]);
 
   useEffect(() => {}, [contact]);
